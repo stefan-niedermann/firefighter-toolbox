@@ -1,0 +1,28 @@
+:host {
+    padding: 2rem;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1;
+
+    @media (min-width: 640px) {
+        max-width: 1024px;
+        width: 80%;
+        margin: auto;
+
+        grid-template-columns: repeat(2, 50%);
+        mat-card:nth-child(n+3) {
+            grid-column: 1 / span 2
+        }
+    }
+}
+
+.license-content {
+    font-family: monospace;
+}
+
+.license-avatar {
+    background: #303030;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

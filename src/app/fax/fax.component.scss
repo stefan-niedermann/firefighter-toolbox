@@ -1,0 +1,19 @@
+:host {
+    padding: 2rem;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1;
+
+    @media (min-width: 640px) {
+        max-width: 1600px;
+        width: 80%;
+        margin: auto;
+
+        grid-template-columns: repeat(2, 50%);
+    }
+}
+
+pdf-viewer {
+    position: relative;
+    min-height: max(calc(100vh - 8rem), 4rem);
+}

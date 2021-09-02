@@ -1,0 +1,115 @@
+<form [formGroup]="form">
+    <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Mitteiler</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="fill">
+                <mat-label>Mitteiler</mat-label>
+                <textarea formControlName="mitteiler" matInput cdkTextareaAutosize></textarea>
+            </mat-form-field>
+        </mat-expansion-panel>
+        <mat-expansion-panel formGroupName="einsatzort">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Einsatzort</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="fill">
+                <mat-label>Straße</mat-label>
+                <input formControlName="strasse" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Haus-Nr.</mat-label>
+                <input formControlName="hnr" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Ort</mat-label>
+                <input formControlName="ort" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Objekt</mat-label>
+                <input formControlName="objekt" matInput />
+            </mat-form-field>
+        </mat-expansion-panel>
+        <mat-expansion-panel formGroupName="zielort">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Zielort</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="fill">
+                <mat-label>Straße</mat-label>
+                <input formControlName="strasse" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Haus-Nr.</mat-label>
+                <input formControlName="hnr" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Ort</mat-label>
+                <input formControlName="ort" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Objekt</mat-label>
+                <input formControlName="objekt" matInput />
+            </mat-form-field>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Patient</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="fill">
+                <mat-label>Patient</mat-label>
+                <textarea formControlName="patient" matInput cdkTextareaAutosize></textarea>
+            </mat-form-field>
+        </mat-expansion-panel>
+        <mat-expansion-panel formGroupName="einsatzgrund">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Einsatzgrund</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="fill">
+                <mat-label>Schlagwort</mat-label>
+                <input formControlName="schlagwort" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Stichwort</mat-label>
+                <input formControlName="stichwort" matInput />
+            </mat-form-field>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Einsatzmittel</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-container formArrayName="einsatzmittel">
+                <div *ngFor="let control of einsatzmittel.controls; index as i">
+                    <ng-container [formGroupName]="i">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Name</mat-label>
+                            <input formControlName="name" matInput />
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Alarmiert</mat-label>
+                            <input formControlName="alarmiert" matInput />
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Aus</mat-label>
+                            <input formControlName="aus" matInput />
+                        </mat-form-field>
+                        <button mat-button (click)="removeEinsatzmittel(i)"><mat-icon>delete</mat-icon></button>
+                    </ng-container>
+                </div>
+            </ng-container>
+            <button mat-raised-button color="accent" (click)="addEinsatzmittel()"><mat-icon>add</mat-icon>Hinzufügen</button>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Bemerkung</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="fill">
+                <mat-label>Bemerkung</mat-label>
+                <textarea formControlName="bemerkung" matInput cdkTextareaAutosize></textarea>
+            </mat-form-field>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <div style="margin-top: 1rem">
+        <button mat-raised-button color="primary" (click)="download()"><mat-icon>download</mat-icon>Download</button>
+    </div>
+</form>
+<pdf-viewer [src]="uri" [original-size]="false"></pdf-viewer>
