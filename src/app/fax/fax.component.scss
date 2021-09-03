@@ -5,7 +5,7 @@
     grid-template-columns: 1;
 
     @media (min-width: 640px) {
-        max-width: 1600px;
+        max-width: 1640px;
         width: 80%;
         margin: auto;
 
@@ -16,4 +16,46 @@
 pdf-viewer {
     position: relative;
     min-height: max(calc(100vh - 8rem), 4rem);
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+address {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    mat-form-field {
+        flex: 1 0 calc(50% - .5rem);
+        
+        &:nth-child(1) {
+            flex: 1 0 calc(70% - .5rem);
+        }
+        &:nth-child(2) {
+            flex: 1 0 calc(30% - .5rem);
+        }
+    }
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+
+    mat-form-field {
+        flex: 1 1 auto;
+        width: auto;
+    }
+
+    button {
+        flex: 0 1 auto;
+    }
 }
