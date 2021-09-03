@@ -122,4 +122,7 @@
         </button>
     </div>
 </form>
-<pdf-viewer [src]="uri" [original-size]="false"></pdf-viewer>
+<div class="preview">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <pdf-viewer [src]="uri" [original-size]="false"></pdf-viewer>
+</div>

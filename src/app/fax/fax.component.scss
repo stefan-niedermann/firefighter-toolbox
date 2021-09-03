@@ -13,11 +13,6 @@
     }
 }
 
-pdf-viewer {
-    position: relative;
-    min-height: max(calc(100vh - 8rem), 4rem);
-}
-
 mat-form-field {
     width: 100%;
 }
@@ -29,7 +24,7 @@ address {
 
     mat-form-field {
         flex: 1 0 calc(50% - .5rem);
-        
+
         &:nth-child(1) {
             flex: 1 0 calc(70% - .5rem);
         }
@@ -57,5 +52,19 @@ li {
 
     button {
         flex: 0 1 auto;
+    }
+}
+
+.preview {
+    position: relative;
+    mat-progress-spinner {
+        position: absolute;
+        top: calc(50% - 2rem);
+        margin-left: calc(50% - 50px);
+    }
+    pdf-viewer {
+        position: relative;
+        display: block;
+        min-height: max(calc(100vh - 8rem), 4rem);
     }
 }

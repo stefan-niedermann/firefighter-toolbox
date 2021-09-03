@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 
@@ -28,6 +29,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     MatButtonModule,
     MatTooltipModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     MatSlideToggleModule,
     RouterModule.forChild([
       {
