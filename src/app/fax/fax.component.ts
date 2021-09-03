@@ -16,7 +16,7 @@ export class FaxComponent implements OnInit, OnDestroy {
   uri = '';
 
   form: FormGroup = new FormGroup({
-    mitteiler: new FormControl('\n\n\n'),
+    mitteiler: new FormControl(''),
     einsatzort: new FormGroup({
       strasse: new FormControl(''),
       hnr: new FormControl(''),
@@ -29,7 +29,7 @@ export class FaxComponent implements OnInit, OnDestroy {
       objekt: new FormControl(''),
       ort: new FormControl('')
     }),
-    patient: new FormControl('\n\n\n'),
+    patient: new FormControl(''),
     einsatzgrund: new FormGroup({
       schlagwort: new FormControl(''),
       stichwort: new FormControl('')
@@ -41,7 +41,7 @@ export class FaxComponent implements OnInit, OnDestroy {
         aus: new FormControl('')
       })
     ]),
-    bemerkung: new FormControl('\n\n\n')
+    bemerkung: new FormControl('')
   });
   einsatzmittel = this.form.get('einsatzmittel') as FormArray;
 

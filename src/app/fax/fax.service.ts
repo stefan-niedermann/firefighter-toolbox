@@ -17,7 +17,7 @@ export class FaxService {
 
   public generateFax(value: any): Blob {
     this._y = 25;
-    var doc = new jsPDF();
+    const doc = new jsPDF();
 
     doc.setFont("courier", "normal");
     doc.setTextColor('#dfdfdf');
@@ -32,10 +32,7 @@ export class FaxService {
     doc.text("Termin     :", this.x, this.y);
     doc.text(`Einsatznummer: T ${this.random()}.${this.random()} ${this.random(6)} ${this.random(2)}`, this.x, this.y);
     doc.text('------------------------------  MITTEILER  ------------------------------', this.x, this.y);
-    doc.text(value.mitteiler, this.x, this.y);
-    for (let i = 1; i < (value.mitteiler || '').split('\n').length; i++) {
-      this.y;
-    }
+    this.insertParagraph(doc, value.mitteiler);
     doc.text('------------------------------  EINSATZORT  -----------------------------', this.x, this.y);
     doc.text(`Straße     : ${value.einsatzort.strasse}`, this.x, this.y);
     doc.text(`Haus-Nr.   : ${value.einsatzort.hnr}`, this.x, this.y);
@@ -53,10 +50,7 @@ export class FaxService {
     doc.text(`Station    :`, this.x, this.y);
     doc.text('', this.x, this.y);
     doc.text('------------------------------  PATIENT  --------------------------------', this.x, this.y);
-    doc.text(value.patient, this.x, this.y);
-    for (let i = 1; i < (value.patient || '').split('\n').length; i++) {
-      this.y;
-    }
+    this.insertParagraph(doc, value.patient);
     doc.text('------------------------------  EINSATZGRUND  ---------------------------', this.x, this.y);
     doc.text(`Schlagw.   : ${value.einsatzgrund.schlagwort}`, this.x, this.y);
     doc.text(`Stichwort  : ${value.einsatzgrund.stichwort}`, this.x, this.y);
@@ -71,10 +65,7 @@ export class FaxService {
     }
     doc.text('', this.x, this.y);
     doc.text('------------------------------  BEMERKUNG  ------------------------------  ', this.x, this.y);
-    doc.text(value.bemerkung, this.x, this.y);
-    for (let i = 1; i < (value.bemerkung || '').split('\n').length; i++) {
-      this.y;
-    }
+    this.insertParagraph(doc, value.bemerkung);
     doc.text('--------------------------  ALARMFAX ENDE  ------------------------------', this.x, this.y);
     doc.text('', this.x, this.y);
     doc.text('Rechtlicher Hinweis:', this.x, this.y);
@@ -86,9 +77,29 @@ export class FaxService {
     return doc.output('blob');
   }
 
-  private random(number = 1): string {
+  /**
+   * Inserts the given paragraph and ensures that at least three lines are used.
+   * @param doc
+   * @param paragraph 
+   */
+  private insertParagraph(doc: jsPDF, paragraph: string) {
+    let filledValue = paragraph || '';
+    while (filledValue.split('\n').length < 4) {
+      filledValue += '\n';
+    }
+    doc.text(filledValue, this.x, this.y);
+    for (let i = 1; i < (filledValue || '').split('\n').length; i++) {
+      this.y;
+    }
+  }
+
+  /**
+   * @param length 
+   * @returns a string of the given length containing random numbers
+   */
+  private random(length = 1): string {
     let result = '';
-    for (let i = 0; i < number; i++) {
+    for (let i = 0; i < length; i++) {
       result += Math.floor(Math.random() * 10);
     }
     return result;
