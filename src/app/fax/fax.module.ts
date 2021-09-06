@@ -12,6 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ClipboardModule } from '@angular/cdk/clipboard'
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     FormsModule,
     ReactiveFormsModule,
     PdfViewerModule,
+    ClipboardModule,
+    MatSnackBarModule,
     MatCardModule,
     MatExpansionModule,
     MatIconModule,

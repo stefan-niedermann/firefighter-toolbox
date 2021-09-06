@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, debounce, map, merge, of, tap, timer } from 'rxjs';
+import { BehaviorSubject, debounce, map, merge, ReplaySubject, tap, timer } from 'rxjs';
 import { FaxService } from './fax.service';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-fax',
   templateUrl: './fax.component.html',
   styleUrls: ['./fax.component.scss']
 })
-export class FaxComponent {
+export class FaxComponent implements OnInit {
 
   form: FormGroup = new FormGroup({
     mitteiler: new FormControl(''),
@@ -40,11 +43,11 @@ export class FaxComponent {
   });
   einsatzmittel = this.form.get('einsatzmittel') as FormArray;
 
+  private readonly initialFormState = new ReplaySubject(1);
   private readonly currentUrl$ = new BehaviorSubject<string | null>(null);
   readonly url$ = merge(
-    of(this.form.value),
-    this.form.valueChanges
-      .pipe(debounce(_ => timer(500)))
+    this.initialFormState,
+    this.form.valueChanges.pipe(debounce(_ => timer(500)))
   ).pipe(
     map(next => this.faxService.generateFax(next)),
     map(blob => URL.createObjectURL(blob)),
@@ -52,16 +55,36 @@ export class FaxComponent {
   );
 
   constructor(
-    private readonly faxService: FaxService
+    private readonly faxService: FaxService,
+    private readonly clipboard: Clipboard,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly snackbar: MatSnackBar
   ) {
   }
 
-  addEinsatzmittel() {
+  ngOnInit(): void {
+    if (this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParamMap.has('content')) {
+      const param = this.activatedRoute.snapshot.queryParamMap.get('content') || '';
+      const obj = JSON.parse(decodeURI(param));
+      this.form.patchValue(obj);
+      this.einsatzmittel.clear();
+      if (Array.isArray(obj.einsatzmittel)) {
+        for (let e of obj.einsatzmittel) {
+          this.addEinsatzmittel(e.name, e.alarmiert, e.aus);
+        }
+      }
+      this.router.navigate([]);
+    }
+    this.initialFormState.next(this.form.value);
+  }
+
+  addEinsatzmittel(name = '', alarmiert = '', aus = '') {
     this.einsatzmittel.push(
       new FormGroup({
-        name: new FormControl(''),
-        alarmiert: new FormControl(''),
-        aus: new FormControl('')
+        name: new FormControl(name),
+        alarmiert: new FormControl(alarmiert),
+        aus: new FormControl(aus)
       })
     );
   }
@@ -81,5 +104,10 @@ export class FaxComponent {
     } else {
       console.warn('PDF is not yet available.');
     }
+  }
+
+  copyLink() {
+    this.clipboard.copy(`${location.protocol}//${location.host}${location.pathname}?content=${encodeURI(JSON.stringify(this.form.value))}`);
+    this.snackbar.open('Link wurde in die Zwischenablage kopiert', undefined, { duration: 2500 });
   }
 }
