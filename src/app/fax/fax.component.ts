@@ -66,7 +66,7 @@ export class FaxComponent implements OnInit {
   ngOnInit(): void {
     if (this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParamMap.has('content')) {
       const param = this.activatedRoute.snapshot.queryParamMap.get('content') || '';
-      const obj = JSON.parse(decodeURI(param));
+      const obj = this.faxService.deserialize(param);
       this.form.patchValue(obj);
       this.einsatzmittel.clear();
       if (Array.isArray(obj.einsatzmittel)) {
@@ -97,8 +97,7 @@ export class FaxComponent implements OnInit {
     const url = this.currentUrl$.getValue();
     if (url !== null) {
       const a = document.createElement('a');
-      const date = new Date().toLocaleDateString('de-DE', { year: 'numeric', month: '2-digit', day: '2-digit' });
-      a.setAttribute('download', `Übungs-Fax ${date}.pdf`);
+      a.setAttribute('download', this.faxService.generateDownloadFilename());
       a.setAttribute('href', url)
       a.click();
     } else {
@@ -107,7 +106,7 @@ export class FaxComponent implements OnInit {
   }
 
   copyLink() {
-    this.clipboard.copy(`${location.protocol}//${location.host}${location.pathname}?content=${encodeURI(JSON.stringify(this.form.value))}`);
+    this.clipboard.copy(`${location.protocol}//${location.host}${location.pathname}?content=${this.faxService.serialize(this.form.value)}`);
     this.snackbar.open('Link wurde in die Zwischenablage kopiert', undefined, { duration: 2500 });
   }
 }

@@ -11,7 +11,7 @@ export class FaxService {
   private readonly x = 20;
 
   private getY(doc: jsPDF): number {
-    if(this._y > doc.internal.pageSize.height - 30) {
+    if (this._y > doc.internal.pageSize.height - 30) {
       doc.addPage();
       this.addWaterMark(doc);
       this._y = 25;
@@ -24,11 +24,11 @@ export class FaxService {
   public generateFax(value: any): Blob {
     this._y = 25;
     const doc = new jsPDF();
-    
+
     doc.setFont("courier", "normal");
     doc.setTextColor('#000000');
     doc.setFontSize(11)
-    
+
     this.addWaterMark(doc);
 
     doc.text("------ FAX ------ FAX ------ FAX ------ FAX ------ FAX ------ FAX -------", this.x, this.getY(doc));
@@ -88,11 +88,11 @@ export class FaxService {
       textColor: doc.getTextColor(),
       fontSize: doc.getFontSize()
     }
-    
+
     doc.setFont("courier", "normal");
     doc.setTextColor('#dfdfdf');
     doc.setFontSize(90)
-    
+
     doc.text('ÜBUNGS-FAX', 50, 230, undefined, 45);
 
     doc.setFont(oldConfig.font.fontName);
@@ -126,5 +126,41 @@ export class FaxService {
       result += Math.floor(Math.random() * 10);
     }
     return result;
+  }
+
+  public deserialize(param: string): any {
+    return JSON.parse(decodeURI(param));
+  }
+
+  public serialize(input: object): string {
+    let first = true;
+    return encodeURI(JSON.stringify(input, (k, v) => {
+      if (first) {
+        first = false;
+      } else if (!this.hasContent(v)) {
+        return undefined;
+      }
+      return v;
+    }));
+  }
+
+  private hasContent(obj: any): boolean {
+    if (obj === '') {
+      return false;
+    } else if (obj === null) {
+      return false;
+    } else if (obj === undefined) {
+      return false;
+    } else if (Array.isArray(obj) && obj.length === 0) {
+      return false;
+    } else if (typeof obj === 'object') {
+      return Object.values(obj).some(prop => this.hasContent(prop));
+    }
+    return true;
+  }
+
+  public generateDownloadFilename(): string {
+    const date = new Date().toLocaleDateString('de-DE', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    return `Übungs-Fax ${date}.pdf`;
   }
 }
