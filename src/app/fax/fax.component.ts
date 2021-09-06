@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, map, merge, of, ReplaySubject, shareReplay, take, tap } from 'rxjs';
+import { BehaviorSubject, debounce, map, merge, of, tap, timer } from 'rxjs';
 import { FaxService } from './fax.service';
 
 @Component({
@@ -44,6 +44,7 @@ export class FaxComponent {
   readonly url$ = merge(
     of(this.form.value),
     this.form.valueChanges
+      .pipe(debounce(_ => timer(500)))
   ).pipe(
     map(next => this.faxService.generateFax(next)),
     map(blob => URL.createObjectURL(blob)),
@@ -73,7 +74,7 @@ export class FaxComponent {
     const url = this.currentUrl$.getValue();
     if (url !== null) {
       const a = document.createElement('a');
-      const date = new Date().toLocaleDateString('de-DE', {year: 'numeric', month: '2-digit', day: '2-digit'});
+      const date = new Date().toLocaleDateString('de-DE', { year: 'numeric', month: '2-digit', day: '2-digit' });
       a.setAttribute('download', `Übungs-Fax ${date}.pdf`);
       a.setAttribute('href', url)
       a.click();
