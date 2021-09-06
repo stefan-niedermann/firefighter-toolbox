@@ -12,7 +12,8 @@ export class FaxService {
 
   private getY(doc: jsPDF): number {
     if(this._y > doc.internal.pageSize.height - 30) {
-      doc.addPage()
+      doc.addPage();
+      this.addWaterMark(doc);
       this._y = 25;
     }
     return this._y += 4.5;
@@ -23,14 +24,13 @@ export class FaxService {
   public generateFax(value: any): Blob {
     this._y = 25;
     const doc = new jsPDF();
-
+    
     doc.setFont("courier", "normal");
-    doc.setTextColor('#dfdfdf');
-    doc.setFontSize(90)
-    doc.text('ÜBUNGS-FAX', 50, 230, undefined, 45);
-
     doc.setTextColor('#000000');
     doc.setFontSize(11)
+    
+    this.addWaterMark(doc);
+
     doc.text("------ FAX ------ FAX ------ FAX ------ FAX ------ FAX ------ FAX -------", this.x, this.getY(doc));
     doc.text("Absender   : ILS MITTELFRANKEN SÜD", this.x, this.getY(doc));
     doc.text(`Fax        : +49  (${this.random(4)}) / ${this.random(7)}`, this.x, this.getY(doc));
@@ -80,6 +80,24 @@ export class FaxService {
     doc.text('Informationen erhalten.', this.x, this.getY(doc));
 
     return doc.output('blob');
+  }
+
+  private addWaterMark(doc: jsPDF) {
+    const oldConfig = {
+      font: doc.getFont(),
+      textColor: doc.getTextColor(),
+      fontSize: doc.getFontSize()
+    }
+    
+    doc.setFont("courier", "normal");
+    doc.setTextColor('#dfdfdf');
+    doc.setFontSize(90)
+    
+    doc.text('ÜBUNGS-FAX', 50, 230, undefined, 45);
+
+    doc.setFont(oldConfig.font.fontName);
+    doc.setTextColor(oldConfig.textColor);
+    doc.setFontSize(oldConfig.fontSize)
   }
 
   /**
