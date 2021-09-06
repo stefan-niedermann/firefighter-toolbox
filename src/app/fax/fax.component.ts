@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, EMPTY, merge, of, ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, merge, of, ReplaySubject, shareReplay, take, tap } from 'rxjs';
 import { FaxService } from './fax.service';
 
 @Component({
@@ -8,12 +8,7 @@ import { FaxService } from './fax.service';
   templateUrl: './fax.component.html',
   styleUrls: ['./fax.component.scss']
 })
-export class FaxComponent implements OnInit, OnDestroy {
-
-  private readonly unsubscribe$ = new Subject<void>();
-
-  blobUri$ = new BehaviorSubject<URL | null>(null);
-  uri = '';
+export class FaxComponent {
 
   form: FormGroup = new FormGroup({
     mitteiler: new FormControl(''),
@@ -45,20 +40,19 @@ export class FaxComponent implements OnInit, OnDestroy {
   });
   einsatzmittel = this.form.get('einsatzmittel') as FormArray;
 
+  private readonly currentUrl$ = new BehaviorSubject<string | null>(null);
+  readonly url$ = merge(
+    of(this.form.value),
+    this.form.valueChanges
+  ).pipe(
+    map(next => this.faxService.generateFax(next)),
+    map(blob => URL.createObjectURL(blob)),
+    tap(url => this.currentUrl$.next(url))
+  );
+
   constructor(
     private readonly faxService: FaxService
   ) {
-  }
-
-  ngOnInit(): void {
-    this.form.valueChanges
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((next: any) => {
-        const newBlobUri = new URL(URL.createObjectURL(this.faxService.generateFax(next)));
-        this.blobUri$.next(newBlobUri);
-        this.uri = newBlobUri.toString();
-      })
-    this.form.updateValueAndValidity();
   }
 
   addEinsatzmittel() {
@@ -76,20 +70,15 @@ export class FaxComponent implements OnInit, OnDestroy {
   }
 
   download() {
-    const val = this.blobUri$.getValue();
-    if (val) {
+    const url = this.currentUrl$.getValue();
+    if (url !== null) {
       const a = document.createElement('a');
-      a.setAttribute('download', '');
-      a.setAttribute('href', val.toString())
+      const date = new Date().toLocaleDateString('de-DE', {year: 'numeric', month: '2-digit', day: '2-digit'});
+      a.setAttribute('download', `Übungs-Fax ${date}.pdf`);
+      a.setAttribute('href', url)
       a.click();
     } else {
-      // TODO Toast
-      console.warn('PDF not yet available.');
+      console.warn('PDF is not yet available.');
     }
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
   }
 }

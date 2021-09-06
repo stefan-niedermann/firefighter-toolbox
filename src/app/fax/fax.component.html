@@ -124,5 +124,5 @@
 </form>
 <div class="preview">
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    <pdf-viewer [src]="uri" [original-size]="false"></pdf-viewer>
+    <pdf-viewer *ngIf="(url$ | async) as url" [src]="url" [original-size]="false"></pdf-viewer>
 </div>
