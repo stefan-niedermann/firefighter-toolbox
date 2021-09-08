@@ -30,6 +30,22 @@
                     <mat-label>Objekt</mat-label>
                     <input formControlName="objekt" matInput />
                 </mat-form-field>
+                <ng-container *ngIf="(nominatimEnabled$ | async) === true">
+                    <span *ngIf=" (einsatzortCoordinates$ | async) as coordinates">
+                        X: {{coordinates.x}} Y: {{coordinates.y}}
+                        <button mat-icon-button (click)="setNominatimState(false)">
+                            <mat-icon>search_off</mat-icon>
+                        </button>
+                    </span>
+                </ng-container>
+                <ng-container *ngIf="(nominatimEnabled$ | async) === false">
+                    <button mat-raised-button color="accent" (click)="setNominatimState(true)">
+                        <mat-icon>search</mat-icon>Suche Koordinaten
+                    </button>
+                    <button mat-icon-button (click)="showNominatimInfo()">
+                        <mat-icon>info_outline</mat-icon>
+                    </button>
+                </ng-container>
             </address>
         </mat-expansion-panel>
         <mat-expansion-panel formGroupName="zielort">

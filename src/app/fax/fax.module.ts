@@ -14,6 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ClipboardModule } from '@angular/cdk/clipboard'
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     PdfViewerModule,
     ClipboardModule,
     MatSnackBarModule,
+    HttpClientModule,
     MatCardModule,
     MatExpansionModule,
     MatIconModule,
