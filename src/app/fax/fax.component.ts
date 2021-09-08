@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, combineLatest, debounce, EMPTY, map, merge, Observable, of, ReplaySubject, shareReplay, switchMap, tap, timer } from 'rxjs';
+import { BehaviorSubject, debounce, map, merge, ReplaySubject, switchMap, tap, timer } from 'rxjs';
 import { FaxService } from './fax.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Coordinates, NominatimService } from './nominatim.service';
+import { NominatimService } from './nominatim.service';
 import { UtilService } from './util.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.component';
 
 @Component({
@@ -16,6 +16,9 @@ import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.co
   styleUrls: ['./fax.component.scss']
 })
 export class FaxComponent implements OnInit {
+
+  private readonly initialFormState = new ReplaySubject(1);
+  private readonly currentUrl$ = new BehaviorSubject<string | null>(null);
 
   readonly form: FormGroup = new FormGroup({
     mitteiler: new FormControl(''),
@@ -47,9 +50,6 @@ export class FaxComponent implements OnInit {
     bemerkung: new FormControl(''),
   });
   readonly einsatzmittel = this.form.get('einsatzmittel') as FormArray;
-
-  private readonly initialFormState = new ReplaySubject(1);
-  private readonly currentUrl$ = new BehaviorSubject<string | null>(null);
   readonly url$ = merge(
     this.initialFormState,
     this.form.valueChanges.pipe(debounce(_ => timer(500)))
