@@ -11,15 +11,18 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialogModule } from '@angular/material/dialog';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ClipboardModule } from '@angular/cdk/clipboard'
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
+import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.component';
 
 
 @NgModule({
   declarations: [
-    FaxComponent
+    FaxComponent,
+    NominatimDialogComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
     ClipboardModule,
     MatSnackBarModule,
     HttpClientModule,
+    MatDialogModule,
     MatCardModule,
     MatExpansionModule,
     MatIconModule,

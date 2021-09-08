@@ -30,22 +30,14 @@
                     <mat-label>Objekt</mat-label>
                     <input formControlName="objekt" matInput />
                 </mat-form-field>
-                <ng-container *ngIf="(nominatimEnabled$ | async) === true">
-                    <span *ngIf=" (einsatzortCoordinates$ | async) as coordinates">
-                        X: {{coordinates.x}} Y: {{coordinates.y}}
-                        <button mat-icon-button (click)="setNominatimState(false)">
-                            <mat-icon>search_off</mat-icon>
-                        </button>
-                    </span>
-                </ng-container>
-                <ng-container *ngIf="(nominatimEnabled$ | async) === false">
-                    <button mat-raised-button color="accent" (click)="setNominatimState(true)">
-                        <mat-icon>search</mat-icon>Suche Koordinaten
-                    </button>
+                <p>
+                    <mat-slide-toggle color="primary" formControlName="nominatimEnabled" (click)="toggleNominatim()">
+                        Automatische Koordinatensuche
+                    </mat-slide-toggle>
                     <button mat-icon-button (click)="showNominatimInfo()">
-                        <mat-icon>info_outline</mat-icon>
+                        <mat-icon>help_outline</mat-icon>
                     </button>
-                </ng-container>
+                </p>
             </address>
         </mat-expansion-panel>
         <mat-expansion-panel formGroupName="zielort">
@@ -112,7 +104,8 @@
                             <mat-label>Aus</mat-label>
                             <input formControlName="aus" matInput />
                         </mat-form-field>
-                        <button mat-icon-button (click)="removeEinsatzmittel(i)">
+                        <button mat-icon-button (click)="removeEinsatzmittel(i)"
+                            matTooltip="Dieses Einsatzmittel löschen">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </ng-container>

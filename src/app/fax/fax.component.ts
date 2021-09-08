@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, debounce, map, merge, Observable, ReplaySubject, switchMap, tap, timer } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounce, EMPTY, map, merge, Observable, of, ReplaySubject, shareReplay, switchMap, tap, timer } from 'rxjs';
 import { FaxService } from './fax.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Coordinates, NominatimService } from './nominatim.service';
+import { UtilService } from './util.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.component';
 
 @Component({
   selector: 'app-fax',
@@ -20,7 +23,8 @@ export class FaxComponent implements OnInit {
       strasse: new FormControl(''),
       hnr: new FormControl(''),
       objekt: new FormControl(''),
-      ort: new FormControl('')
+      ort: new FormControl(''),
+      nominatimEnabled: new FormControl(this.nominatimService.isEnabled()),
     }),
     zielort: new FormGroup({
       strasse: new FormControl(''),
@@ -40,14 +44,9 @@ export class FaxComponent implements OnInit {
         aus: new FormControl('')
       })
     ]),
-    bemerkung: new FormControl('')
+    bemerkung: new FormControl(''),
   });
   einsatzmittel = this.form.get('einsatzmittel') as FormArray;
-  nominatimEnabled$ = this.nominatimService.isEnabled();
-  einsatzortCoordinates$ = (this.form.get('einsatzort') as FormControl).valueChanges.pipe(
-    debounce(_ => timer(500)),
-    switchMap(einsatzort => this.nominatimService.getCoordinates(einsatzort))
-  );
 
   private readonly initialFormState = new ReplaySubject(1);
   private readonly currentUrl$ = new BehaviorSubject<string | null>(null);
@@ -55,7 +54,7 @@ export class FaxComponent implements OnInit {
     this.initialFormState,
     this.form.valueChanges.pipe(debounce(_ => timer(500)))
   ).pipe(
-    map(next => this.faxService.generateFax(next)),
+    switchMap(next => this.faxService.generateFax(next)),
     map(blob => URL.createObjectURL(blob)),
     tap(url => this.currentUrl$.next(url))
   );
@@ -63,17 +62,19 @@ export class FaxComponent implements OnInit {
   constructor(
     private readonly faxService: FaxService,
     private readonly nominatimService: NominatimService,
+    private readonly utils: UtilService,
     private readonly clipboard: Clipboard,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly snackbar: MatSnackBar
+    private readonly snackbar: MatSnackBar,
+    private readonly dialog: MatDialog
   ) {
   }
 
   ngOnInit(): void {
     if (this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParamMap.has('content')) {
       const param = this.activatedRoute.snapshot.queryParamMap.get('content') || '';
-      const obj = this.faxService.deserialize(param);
+      const obj = this.utils.deserialize(param);
       this.form.patchValue(obj);
       this.einsatzmittel.clear();
       if (Array.isArray(obj.einsatzmittel)) {
@@ -113,15 +114,15 @@ export class FaxComponent implements OnInit {
   }
 
   copyLink() {
-    this.clipboard.copy(`${location.protocol}//${location.host}${location.pathname}?content=${this.faxService.serialize(this.form.value)}`);
+    this.clipboard.copy(`${location.protocol}//${location.host}${location.pathname}?content=${this.utils.serialize(this.form.value)}`);
     this.snackbar.open('Link wurde in die Zwischenablage kopiert', undefined, { duration: 2500 });
   }
 
-  setNominatimState(state: boolean) {
-    this.nominatimService.setStatus(state);
+  toggleNominatim() {
+    this.nominatimService.toggle();
   }
 
   showNominatimInfo() {
-
+    this.dialog.open(NominatimDialogComponent);
   }
 }
