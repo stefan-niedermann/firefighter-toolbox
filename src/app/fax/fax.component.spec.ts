@@ -1,6 +1,7 @@
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -35,6 +36,7 @@ describe('FaxComponent', () => {
         MatSlideToggleModule,
         MatSnackBarModule,
         MatInputModule,
+        MatAutocompleteModule,
         MatTooltipModule,
         FormsModule,
         MatDialogModule,

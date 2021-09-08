@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, debounce, map, merge, ReplaySubject, switchMap, tap, timer } from 'rxjs';
+import { BehaviorSubject, debounce, map, merge, Observable, ReplaySubject, startWith, switchMap, tap, timer } from 'rxjs';
 import { FaxService } from './fax.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { NominatimService } from './nominatim.service';
 import { UtilService } from './util.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.component';
+import { Stichwoerter } from './stichwoerter';
 
 @Component({
   selector: 'app-fax',
@@ -50,6 +51,13 @@ export class FaxComponent implements OnInit {
     bemerkung: new FormControl(''),
   });
   readonly einsatzmittel = this.form.get('einsatzmittel') as FormArray;
+  readonly filteredStichwoerter: Observable<string[]> = (this.form.get('einsatzgrund')?.get('stichwort') as FormGroup).valueChanges.pipe(
+    startWith(''),
+    map(value => {
+      const filterValue = value.toLowerCase();
+      return Stichwoerter.filter(stichwort => stichwort.toLowerCase().startsWith(filterValue));
+    })
+  );
   readonly url$ = merge(
     this.initialFormState,
     this.form.valueChanges.pipe(debounce(_ => timer(500)))

@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ClipboardModule } from '@angular/cdk/clipboard'
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HttpClientModule } from '@angular/common/http';
 import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.component';
 
@@ -38,6 +39,7 @@ import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.co
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    MatAutocompleteModule,
     MatInputModule,
     MatProgressSpinnerModule,
     MatSlideToggleModule,
