@@ -17,6 +17,10 @@ mat-form-field {
     width: 100%;
 }
 
+mat-slide-toggle {
+    vertical-align: middle;
+}
+
 address {
     display: flex;
     gap: 1rem;

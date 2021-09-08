@@ -30,6 +30,14 @@
                     <mat-label>Objekt</mat-label>
                     <input formControlName="objekt" matInput />
                 </mat-form-field>
+                <p>
+                    <mat-slide-toggle color="primary" formControlName="nominatimEnabled" (click)="toggleNominatim()">
+                        Automatische Koordinatensuche
+                    </mat-slide-toggle>
+                    <button mat-icon-button (click)="showNominatimInfo()">
+                        <mat-icon>help_outline</mat-icon>
+                    </button>
+                </p>
             </address>
         </mat-expansion-panel>
         <mat-expansion-panel formGroupName="zielort">
@@ -96,7 +104,8 @@
                             <mat-label>Aus</mat-label>
                             <input formControlName="aus" matInput />
                         </mat-form-field>
-                        <button mat-icon-button (click)="removeEinsatzmittel(i)">
+                        <button mat-icon-button (click)="removeEinsatzmittel(i)"
+                            matTooltip="Dieses Einsatzmittel löschen">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </ng-container>
