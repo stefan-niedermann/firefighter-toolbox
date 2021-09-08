@@ -25,6 +25,7 @@ address {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    font-style: normal;
 
     mat-form-field {
         flex: 1 0 calc(50% - .5rem);
