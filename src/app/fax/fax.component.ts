@@ -17,7 +17,7 @@ import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.co
 })
 export class FaxComponent implements OnInit {
 
-  form: FormGroup = new FormGroup({
+  readonly form: FormGroup = new FormGroup({
     mitteiler: new FormControl(''),
     einsatzort: new FormGroup({
       strasse: new FormControl(''),
@@ -46,7 +46,7 @@ export class FaxComponent implements OnInit {
     ]),
     bemerkung: new FormControl(''),
   });
-  einsatzmittel = this.form.get('einsatzmittel') as FormArray;
+  readonly einsatzmittel = this.form.get('einsatzmittel') as FormArray;
 
   private readonly initialFormState = new ReplaySubject(1);
   private readonly currentUrl$ = new BehaviorSubject<string | null>(null);
@@ -68,13 +68,15 @@ export class FaxComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly snackbar: MatSnackBar,
     private readonly dialog: MatDialog
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     if (this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParamMap.has('content')) {
       const param = this.activatedRoute.snapshot.queryParamMap.get('content') || '';
       const obj = this.utils.deserialize(param);
+      if (obj.einsatzort) {
+        delete obj.einsatzort.nominatimEnabled;
+      }
       this.form.patchValue(obj);
       this.einsatzmittel.clear();
       if (Array.isArray(obj.einsatzmittel)) {
@@ -114,7 +116,10 @@ export class FaxComponent implements OnInit {
   }
 
   copyLink() {
-    this.clipboard.copy(`${location.protocol}//${location.host}${location.pathname}?content=${this.utils.serialize(this.form.value)}`);
+    const payload = { ... this.form.value };
+    payload.einsatzort = { ...payload.einsatzort };
+    delete payload.einsatzort.nominatimEnabled;
+    this.clipboard.copy(`${location.protocol}//${location.host}${location.pathname}?content=${this.utils.serialize(payload)}`);
     this.snackbar.open('Link wurde in die Zwischenablage kopiert', undefined, { duration: 2500 });
   }
 

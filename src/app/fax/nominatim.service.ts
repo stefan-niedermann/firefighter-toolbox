@@ -10,8 +10,8 @@ export class NominatimService {
   private readonly persistenceKey = 'nominatim';
   private readonly persistenceValue = 'enabled';
   private readonly defaultCoordinates: Coordinates = {
-    x: '51.344000',
-    y: '10.459000'
+    x: '51.344',
+    y: '10.459'
   }
 
   constructor(
