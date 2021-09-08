@@ -102,7 +102,7 @@ export class FaxService {
     doc.setTextColor('#dfdfdf');
     doc.setFontSize(90)
 
-    doc.text('ÜBUNGS-FAX', 50, 230, undefined, 45);
+    doc.text('ÜBUNGS-FAX', 45, 225, undefined, 45);
 
     doc.setFont(oldConfig.font.fontName);
     doc.setTextColor(oldConfig.textColor);

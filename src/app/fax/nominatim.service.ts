@@ -30,11 +30,11 @@ export class NominatimService {
     return localStorage.getItem(this.persistenceKey) === this.persistenceValue;
   }
 
-  public getCoordinates(address: any): Observable<Coordinates> {
+  public getCoordinates(address: Address): Observable<Coordinates> {
     if (this.isEnabled()) {
       const params = new HttpParams()
         .append('street', `${address.hnr} ${address.strasse}`)
-        .append('city', address.ort)
+        .append('city', `${address.ort}`)
         .append('countrycodes', 'de')
         .append('limit', 1)
         .append('format', 'json');
@@ -51,6 +51,12 @@ export class NominatimService {
       return of(this.defaultCoordinates);
     }
   }
+}
+
+export interface Address {
+  strasse?: string,
+  hnr?: string,
+  ort?: string
 }
 
 export interface Coordinates {
