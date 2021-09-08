@@ -34,7 +34,7 @@
                     <mat-slide-toggle color="primary" formControlName="nominatimEnabled" (click)="toggleNominatim()">
                         Automatische Koordinatensuche
                     </mat-slide-toggle>
-                    <button mat-icon-button (click)="showNominatimInfo()">
+                    <button type="button" mat-icon-button (click)="showNominatimInfo()">
                         <mat-icon>help_outline</mat-icon>
                     </button>
                 </p>
@@ -104,14 +104,14 @@
                             <mat-label>Aus</mat-label>
                             <input formControlName="aus" matInput />
                         </mat-form-field>
-                        <button mat-icon-button (click)="removeEinsatzmittel(i)"
+                        <button type="button" mat-icon-button (click)="removeEinsatzmittel(i)"
                             matTooltip="Dieses Einsatzmittel löschen">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </ng-container>
                 </li>
             </ul>
-            <button mat-raised-button color="accent" (click)="addEinsatzmittel()">
+            <button type="button" mat-raised-button color="accent" (click)="addEinsatzmittel()">
                 <mat-icon>add</mat-icon>Hinzufügen
             </button>
         </mat-expansion-panel>
@@ -126,10 +126,10 @@
         </mat-expansion-panel>
     </mat-accordion>
     <div style="margin-top: 1rem">
-        <button mat-raised-button color="primary" (click)="download()">
+        <button type="button" mat-raised-button color="primary" (click)="download()">
             <mat-icon>download</mat-icon>Download
         </button>
-        <button mat-raised-button color="accent" (click)="copyLink()" style="margin-left: 1rem;">
+        <button type="button" mat-raised-button color="accent" (click)="copyLink()" style="margin-left: 1rem;">
             <mat-icon>content_copy</mat-icon>Link kopieren
         </button>
     </div>
