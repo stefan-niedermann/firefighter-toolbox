@@ -42,4 +42,29 @@ describe('UtilService', () => {
       })).toEqual('%7B%22foo%22:%22bar%22,%22aaa%22:%7B%22bbb%22:3%7D%7D');
     });
   });
+
+  describe('ensureMinimumLineCount', () => {
+    it('should add blank lines when minimum is not reached', () => {
+      expect(service.ensureMinimumLineCount('Hello', 4)).toEqual('Hello\n\n\n');
+      expect(service.ensureMinimumLineCount('\nHello', 4)).toEqual('\nHello\n\n');
+    });
+
+    it('should not add further blank lines when minimum is already reached', () => {
+      expect(service.ensureMinimumLineCount('\nHello', 1)).toEqual('\nHello');
+    });
+  });
+
+  describe('breakLongLines', () => {
+    it('should split long lines at the last space character if possible and remove trailing spaces', () => {
+      expect(service.breakLongLines('Hello there, what\'s up?', 10)).toEqual('Hello\nthere,\nwhat\'s up?');
+    });
+
+    it('should not touch trailing spaces which are already present', () => {
+      expect(service.breakLongLines('  Hello there,  what\'s up?', 10)).toEqual('  Hello\nthere, \nwhat\'s up?');
+    });
+    
+    it('should split long lines hard if no spaces are present', () => {
+      expect(service.breakLongLines('Hello', 2)).toEqual('He\nll\no');
+    });
+  });
 });

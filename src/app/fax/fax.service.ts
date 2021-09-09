@@ -109,52 +109,17 @@ export class FaxService {
     doc.setFontSize(oldConfig.fontSize)
   }
 
-  /**
-   * Inserts the given paragraph and ensures that at least three lines are used.
-   * @param doc
-   * @param paragraph 
-   * @param getY
-   */
-  private insertParagraph(doc: jsPDF, paragraph: string, getY: (doc: jsPDF) => number) {
-    let filledValue = '';
-    filledValue = FaxService.breakLongLines(paragraph || '');
-    filledValue = FaxService.ensureMinimumLineCount(filledValue);
+  private insertParagraph(doc: jsPDF, paragraph: undefined | string, getY: (doc: jsPDF) => number) {
+    const preparedText = [(paragraph || '')]
+      .map(p => this.utils.breakLongLines(p))
+      .map(p => this.utils.ensureMinimumLineCount(p))
+      .shift() as string;
 
-    doc.text(filledValue, this.x, getY(doc));
-    for (let i = 1; i < (filledValue || '').split('\n').length; i++) {
+    doc.text(preparedText, this.x, getY(doc));
+    
+    for (let i = 1; i < preparedText.split('\n').length; i++) {
       getY(doc);
     }
-  }
-
-  private static breakLongLines(paragraph: string, maxLineLength = 73): string {
-    return paragraph
-      .split('\n')
-      .map(line => FaxService.breakLongLine(line, maxLineLength).join('\n'))
-      .join('\n');
-  }
-
-  private static breakLongLine(line: string, maxLineLength: number): string[] {
-    if (line.length <= maxLineLength) {
-      return [line];
-    }
-
-    const lastSpaceInLine = line.substring(0, maxLineLength).lastIndexOf(' ');
-    return (lastSpaceInLine === -1)
-      ? [
-        line.substring(0, maxLineLength),
-        ...FaxService.breakLongLine(line.substring(maxLineLength, line.length), maxLineLength)
-      ]
-      : [
-        line.substring(0, lastSpaceInLine),
-        ...FaxService.breakLongLine(line.substring(lastSpaceInLine + 1, line.length), maxLineLength)
-      ]
-  }
-
-  private static ensureMinimumLineCount(paragraph: string, count = 4): string {
-    while (paragraph.split('\n').length < count) {
-      paragraph += '\n';
-    }
-    return paragraph;
   }
 
   public generateDownloadFilename(): string {
