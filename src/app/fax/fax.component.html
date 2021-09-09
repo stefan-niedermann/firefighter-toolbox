@@ -130,15 +130,15 @@
             </mat-form-field>
         </mat-expansion-panel>
     </mat-accordion>
-    <div style="margin-top: 1rem">
+    <div class="btn-bar">
         <button type="button" mat-raised-button color="primary" (click)="download()">
             <mat-icon>download</mat-icon>Download
         </button>
-        <button type="button" mat-raised-button color="accent" (click)="copyLink()" style="margin-left: 1rem;">
-            <mat-icon>content_copy</mat-icon>Link kopieren
+        <button type="button" mat-raised-button color="accent" (click)="copyLink()">
+            <mat-icon>content_copy</mat-icon><span class="btn-text">Link kopieren</span>
         </button>
-        <button type="button" mat-raised-button color="accent" (click)="share()" style="margin-left: 1rem;">
-            <mat-icon>share</mat-icon>Teilen
+        <button type="button" mat-raised-button color="accent" (click)="share()">
+            <mat-icon>share</mat-icon><span class="btn-text">Teilen</span>
         </button>
     </div>
 </form>
