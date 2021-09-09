@@ -30,7 +30,10 @@ export class FaxService {
           return y += 4.5;
         }
 
-        const doc = new jsPDF();
+        const doc = new jsPDF({
+          unit: 'mm',
+          format: 'a4'
+        });
 
         doc.setFont("courier", "normal");
         doc.setTextColor('#000000');

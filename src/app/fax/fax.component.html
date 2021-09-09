@@ -134,8 +134,8 @@
         <button type="button" mat-raised-button color="primary" (click)="download()">
             <mat-icon>download</mat-icon>Download
         </button>
-        <button type="button" mat-raised-button color="accent" (click)="copyLink()">
-            <mat-icon>content_copy</mat-icon><span class="btn-text">Link kopieren</span>
+        <button type="button" mat-raised-button color="accent" (click)="print()">
+            <mat-icon>print</mat-icon><span class="btn-text">Drucken</span>
         </button>
         <button type="button" mat-raised-button color="accent" (click)="share()">
             <mat-icon>share</mat-icon><span class="btn-text">Teilen</span>
@@ -144,5 +144,8 @@
 </form>
 <div class="preview">
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    <pdf-viewer *ngIf="(url$ | async) as url" [src]="url" [original-size]="false"></pdf-viewer>
+    <ng-container *ngIf="(url$ | async) as url">
+        <pdf-viewer [src]="url" [original-size]="false"></pdf-viewer>
+        <iframe #printIframe frameborder="0" style="display: none"></iframe>
+    </ng-container>
 </div>

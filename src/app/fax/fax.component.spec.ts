@@ -1,4 +1,3 @@
-import { ClipboardModule } from '@angular/cdk/clipboard';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
@@ -23,6 +22,7 @@ import { FaxService } from './fax.service';
 import { UtilService } from './util.service';
 import { FaxComponent } from './fax.component';
 import { NominatimService } from './nominatim.service';
+import { Platform } from '@angular/cdk/platform';
 
 describe('FaxComponent', () => {
   let component: FaxComponent;
@@ -32,7 +32,6 @@ describe('FaxComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         FormsModule,
-        ClipboardModule,
         ReactiveFormsModule,
         NoopAnimationsModule,
         MatDialogModule,
@@ -55,7 +54,8 @@ describe('FaxComponent', () => {
         MockProvider(UtilService),
         MockProvider(NominatimService),
         MockProvider(ActivatedRoute),
-        MockProvider(Router)
+        MockProvider(Router),
+        MockProvider(Platform),
       ],
       declarations: [
         FaxComponent,

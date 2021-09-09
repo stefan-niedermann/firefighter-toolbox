@@ -1,8 +1,10 @@
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { MockPipe } from 'ng-mocks';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MockPipe, MockProvider } from 'ng-mocks';
 import { UrlEncodePipe } from '../url-encode-pipe/url-encode.pipe';
 
 import { ShareDialogComponent } from './share-dialog.component';
@@ -16,12 +18,15 @@ describe('ShareDialogComponent', () => {
       imports: [
         MatListModule,
         MatIconModule,
+        MatSnackBarModule,
+        ClipboardModule,
       ],
       declarations: [
         ShareDialogComponent,
         MockPipe(UrlEncodePipe),
       ],
       providers: [
+        MockProvider(MatBottomSheetRef),
         { provide: MAT_BOTTOM_SHEET_DATA, useValue: '' }
       ]
     })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, debounce, map, merge, Observable, ReplaySubject, startWith, switchMap, tap, timer } from 'rxjs';
 import { FaxService } from './fax.service';
@@ -12,6 +12,7 @@ import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.co
 import { Stichwoerter } from './stichwoerter';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { ShareDialogComponent } from './share-dialog/share-dialog.component';
+import { Platform } from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-fax',
@@ -19,6 +20,8 @@ import { ShareDialogComponent } from './share-dialog/share-dialog.component';
   styleUrls: ['./fax.component.scss']
 })
 export class FaxComponent implements OnInit {
+
+  @ViewChild('printIframe', { static: false }) printIframe: undefined | ElementRef<HTMLIFrameElement>;
 
   private readonly initialFormState = new ReplaySubject(1);
   private readonly currentUrl$ = new BehaviorSubject<string | null>(null);
@@ -73,12 +76,12 @@ export class FaxComponent implements OnInit {
     private readonly faxService: FaxService,
     private readonly nominatimService: NominatimService,
     private readonly utils: UtilService,
-    private readonly clipboard: Clipboard,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly snackbar: MatSnackBar,
     private readonly dialog: MatDialog,
-    private readonly bottomSheet: MatBottomSheet
+    private readonly bottomSheet: MatBottomSheet,
+    private readonly platform: Platform,
   ) { }
 
   ngOnInit(): void {
@@ -122,13 +125,8 @@ export class FaxComponent implements OnInit {
       a.setAttribute('href', url)
       a.click();
     } else {
-      console.warn('PDF is not yet available.');
+      this.snackbar.open('Es ist ein Fehler aufgetreten', undefined, { duration: 2500 });
     }
-  }
-
-  copyLink() {
-    this.clipboard.copy(this.faxService.generateShareLink(this.getPayload()));
-    this.snackbar.open('Link wurde in die Zwischenablage kopiert', undefined, { duration: 2500 });
   }
 
   toggleNominatim() {
@@ -143,6 +141,29 @@ export class FaxComponent implements OnInit {
     this.bottomSheet.open(ShareDialogComponent, {
       data: this.faxService.generateShareLink(this.getPayload())
     });
+  }
+
+  print() {
+    const url = this.currentUrl$.getValue();
+    if (url !== null) {
+      const iframe = this.printIframe?.nativeElement;
+      if (iframe) {
+        iframe.setAttribute('src', url);
+        iframe.onload = () => {
+          if (this.platform.FIREFOX) {
+            const renderTime = 1000;
+            this.snackbar.open('Fax wird gedruckt…', undefined, { duration: renderTime });
+            setTimeout(() => iframe.contentWindow?.print(), renderTime);
+          } else {
+            iframe.contentWindow?.print();
+          }
+        }
+      } else {
+        this.snackbar.open('Es ist ein Fehler aufgetreten', undefined, { duration: 2500 });
+      }
+    } else {
+      this.snackbar.open('Es ist ein Fehler aufgetreten', undefined, { duration: 2500 });
+    }
   }
 
   private getPayload() {
