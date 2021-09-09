@@ -1,0 +1,27 @@
+<p>Beim Teilen werden alle im Fax enthaltenen Informationen an den jeweiligen Anbieter übermittelt.</p>
+
+<mat-nav-list>
+    <a href="https://t.me/share/url?url={{url | urlEncode}}" mat-list-item>
+        <mat-icon mat-list-icon>telegram</mat-icon>
+        <span mat-line>Telegram</span>
+        <span mat-line>Via Telegram teilen</span>
+    </a>
+
+    <a href="whatsapp://send?text={{url | urlEncode}}" mat-list-item>
+        <mat-icon mat-list-icon>whatsapp</mat-icon>
+        <span mat-line>Whatsapp</span>
+        <span mat-line>Whatsapp muss installiert sein</span>
+    </a>
+
+    <a href="mailto:?body={{url | urlEncode}}" mat-list-item>
+        <mat-icon mat-list-icon>mail</mat-icon>
+        <span mat-line>E-Mail</span>
+        <span mat-line>Ein E-Mail-Programm muss eingerichtet sein</span>
+    </a>
+
+    <a href="sms:?body={{url | urlEncode}}" mat-list-item>
+        <mat-icon mat-list-icon>sms</mat-icon>
+        <span mat-line>SMS</span>
+        <span mat-line>Funktioniert nur auf SMS-Fähigen geräten</span>
+    </a>
+</mat-nav-list>

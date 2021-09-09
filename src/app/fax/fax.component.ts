@@ -10,6 +10,8 @@ import { UtilService } from './util.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.component';
 import { Stichwoerter } from './stichwoerter';
+import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 
 @Component({
   selector: 'app-fax',
@@ -75,7 +77,8 @@ export class FaxComponent implements OnInit {
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly snackbar: MatSnackBar,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly bottomSheet: MatBottomSheet
   ) { }
 
   ngOnInit(): void {
@@ -124,10 +127,7 @@ export class FaxComponent implements OnInit {
   }
 
   copyLink() {
-    const payload = { ... this.form.value };
-    payload.einsatzort = { ...payload.einsatzort };
-    delete payload.einsatzort.nominatimEnabled;
-    this.clipboard.copy(`${location.protocol}//${location.host}${location.pathname}?content=${this.utils.serialize(payload)}`);
+    this.clipboard.copy(this.faxService.generateShareLink(this.getPayload()));
     this.snackbar.open('Link wurde in die Zwischenablage kopiert', undefined, { duration: 2500 });
   }
 
@@ -137,5 +137,18 @@ export class FaxComponent implements OnInit {
 
   showNominatimInfo() {
     this.dialog.open(NominatimDialogComponent);
+  }
+
+  share() {
+    this.bottomSheet.open(ShareDialogComponent, {
+      data: this.faxService.generateShareLink(this.getPayload())
+    });
+  }
+
+  private getPayload() {
+    const payload = { ... this.form.value };
+    payload.einsatzort = { ...payload.einsatzort };
+    delete payload.einsatzort.nominatimEnabled;
+    return payload;
   }
 }

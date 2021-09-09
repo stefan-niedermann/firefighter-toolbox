@@ -19,12 +19,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.component';
 
 import { FaxComponent } from './fax.component';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { ShareDialogComponent } from './share-dialog/share-dialog.component';
+import { MatListModule } from '@angular/material/list';
+import { UrlEncodePipe } from './url-encode-pipe/url-encode.pipe';
 
 
 @NgModule({
   declarations: [
     FaxComponent,
-    NominatimDialogComponent
+    NominatimDialogComponent,
+    ShareDialogComponent,
+    UrlEncodePipe
   ],
   imports: [
     CommonModule,
@@ -44,6 +50,8 @@ import { FaxComponent } from './fax.component';
     MatInputModule,
     MatProgressSpinnerModule,
     MatSlideToggleModule,
+    MatBottomSheetModule,
+    MatListModule,
     RouterModule.forChild([
       {
         path: '',

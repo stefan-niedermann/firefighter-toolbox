@@ -126,4 +126,8 @@ export class FaxService {
     const date = new Date().toLocaleDateString('de-DE', { year: 'numeric', month: '2-digit', day: '2-digit' });
     return `Übungs-Fax ${date}.pdf`;
   }
+
+  public generateShareLink(payload: any): string {
+    return `${location.protocol}//${location.host}${location.pathname}?content=${this.utils.serialize(payload)}`
+  }
 }
