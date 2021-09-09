@@ -3,9 +3,22 @@
         <div mat-card-avatar class="license-avatar">
             <mat-icon>info_outlined</mat-icon>
         </div>
-        <mat-card-title>About</mat-card-title>
+        <mat-card-title>Über</mat-card-title>
         <mat-card-subtitle>Fax-Generator</mat-card-subtitle>
     </mat-card-header>
+    <mat-card-content>
+        <p>Wie viele Open Source Projekte nahm dieses kleine Helferlein seinen Ursprung in der Notwendigkeit und im
+            Bedarf des ursprünglichen Autors.</p>
+        <p>Es soll ein realistisches Einsatz-Fax zu Übungszwecken nachahmen und ist für Übungen von Freiwillige
+            Feuerwehren gedacht.</p>
+        <p>Ziel ist es, mit möglichst einfachen Mitteln und ohne technisches Wissen ein Fax
+            bereitstellen zu können, das sich möglichst nahe am Vorbild der Leistelle orientiert und Formatvorlagen
+            benötigt, welche nicht zuletzt durch proprietäre, notorisch unzuverlässige und häufig zu sich selbst
+            inkompatible Microsoft-Office Produkte verunstaltet werden.</p>
+        <p>Die Anwendung kommt ohne Tracking, Cookies oder andere die Privatsphäre verletzende Beigaben aus. Optionale
+            Features wie die automatische Koordinaten Erkennung sind standardmäßig deaktiviert und klären den Anwender
+            darüber auf, was bei Aktivierung mit den Daten geschieht.</p>
+    </mat-card-content>
 </mat-card>
 
 <mat-card>
@@ -13,19 +26,21 @@
         <div mat-card-avatar class="license-avatar">
             <mat-icon>people</mat-icon>
         </div>
-        <mat-card-title>People</mat-card-title>
-        <mat-card-subtitle>Join the team</mat-card-subtitle>
+        <mat-card-title>Beteiligte</mat-card-title>
+        <mat-card-subtitle>Mach mit!</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
         <p><strong>Maintainer</strong></p>
-        <p>Stefan Niedermann (Niedermann IT-Dienstleistungen) - <a color="accent" mat-raised-button
+        <p>Stefan Niedermann (Niedermann IT-Dienstleistungen) - <a color="primary" mat-raised-button
                 href="https://www.niedermann.it">Website</a></p>
         <p><strong>Contribute</strong></p>
-        <p>This is an open source project: You can contribute with <a
-                href="https://github.com/stefan-niedermann/firefighter-exercise-operation-fax-generator/pulls" mat-raised-button>Pull
-                Requests</a>, <a href="https://github.com/stefan-niedermann/firefighter-exercise-operation-fax-generator/issues"
-                mat-raised-button>Feature Requests</a> and <a
-                href="https://github.com/stefan-niedermann/firefighter-exercise-operation-fax-generator/issues" mat-raised-button>Bug Reports</a></p>
+        <p>Dies ist ein Open Source Projekt: Du kannst mitmachen, indem du <a color="accent"
+                href="https://github.com/stefan-niedermann/firefighter-exercise-operation-fax-generator/pulls"
+                mat-button>Code beiträgst</a>, dir ein neues <a color="accent"
+                href="https://github.com/stefan-niedermann/firefighter-exercise-operation-fax-generator/issues"
+                mat-button>Feature</a> wünschst oder einen <a color="accent"
+                href="https://github.com/stefan-niedermann/firefighter-exercise-operation-fax-generator/issues"
+                mat-button>Fehler meldest</a>.</p>
     </mat-card-content>
 </mat-card>
 
@@ -34,13 +49,13 @@
         <div mat-card-avatar class="license-avatar">
             <mat-icon>note</mat-icon>
         </div>
-        <mat-card-title>Licenses</mat-card-title>
-        <mat-card-subtitle>from 3rd party libraries</mat-card-subtitle>
+        <mat-card-title>Lizenzen</mat-card-title>
+        <mat-card-subtitle>von verwendeten Drittanbieter-Bibliotheken</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content class="license-content">
-        <p>All contributions to this app itself are considered to be licensed under the <a
-                mat-raised-button href="https://github.com/stefan-niedermann/firefighter-exercise-operation-fax-generator/blob/main/LICENSE">GPL
-                3+</a>.</p>
+        <p>Alle Beiträge zu dieser App selbst werden zu den Bedingungen der <a mat-raised-button
+                href="https://github.com/stefan-niedermann/firefighter-exercise-operation-fax-generator/blob/main/LICENSE">GPL
+                3+</a> angenommen.</p>
         <p [innerHTML]="licenses"></p>
     </mat-card-content>
 </mat-card>
