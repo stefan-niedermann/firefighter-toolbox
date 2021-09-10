@@ -1,8 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, debounce, map, merge, Observable, ReplaySubject, startWith, switchMap, take, tap, timer } from 'rxjs';
 import { FaxService } from './fax.service';
-import { Clipboard } from '@angular/cdk/clipboard';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NominatimService } from './nominatim.service';
@@ -10,7 +9,7 @@ import { UtilService } from './util.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.component';
 import { Stichwoerter } from './stichwoerter';
-import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 import { Platform } from '@angular/cdk/platform';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
