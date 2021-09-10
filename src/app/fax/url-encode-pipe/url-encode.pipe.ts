@@ -5,8 +5,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class UrlEncodePipe implements PipeTransform {
 
-  transform(value: string): unknown {
-    return encodeURI(value);
+  transform(value: undefined | string): string {
+    return value === undefined
+      ? ''
+      : encodeURI(value);
   }
 
 }

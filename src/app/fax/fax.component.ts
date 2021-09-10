@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, debounce, map, merge, Observable, ReplaySubject, startWith, switchMap, tap, timer } from 'rxjs';
+import { BehaviorSubject, debounce, map, merge, Observable, ReplaySubject, startWith, switchMap, take, tap, timer } from 'rxjs';
 import { FaxService } from './fax.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { Stichwoerter } from './stichwoerter';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 import { Platform } from '@angular/cdk/platform';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-fax',
@@ -86,19 +87,23 @@ export class FaxComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParamMap.has('content')) {
-      const param = this.activatedRoute.snapshot.queryParamMap.get('content') || '';
-      const obj = this.utils.deserialize(param);
-      if (obj.einsatzort) {
-        delete obj.einsatzort.nominatimEnabled;
-      }
-      this.form.patchValue(obj);
-      this.einsatzmittel.clear();
-      if (Array.isArray(obj.einsatzmittel)) {
-        for (let e of obj.einsatzmittel) {
-          this.addEinsatzmittel(e.name, e.alarmiert, e.aus);
+      try {
+        const param = this.activatedRoute.snapshot.queryParamMap.get('content') || '';
+        const obj = this.utils.deserialize(param);
+        if (obj.einsatzort) {
+          delete obj.einsatzort.nominatimEnabled;
         }
+        this.form.patchValue(obj);
+        this.einsatzmittel.clear();
+        if (Array.isArray(obj.einsatzmittel)) {
+          for (let e of obj.einsatzmittel) {
+            this.addEinsatzmittel(e.name, e.alarmiert, e.aus);
+          }
+        }
+        this.router.navigate([]);
+      } catch (e) {
+        this.handleError('Fehler beim Laden der Parameter', e);
       }
-      this.router.navigate([]);
     }
     this.initialFormState.next(this.form.value);
   }
@@ -125,7 +130,7 @@ export class FaxComponent implements OnInit {
       a.setAttribute('href', url)
       a.click();
     } else {
-      this.snackbar.open('Es ist ein Fehler aufgetreten', undefined, { duration: 2500 });
+      this.handleError('Fehler beim Laden der Parameter', new Error('currentUrl$ value is null'));
     }
   }
 
@@ -159,10 +164,10 @@ export class FaxComponent implements OnInit {
           }
         }
       } else {
-        this.snackbar.open('Es ist ein Fehler aufgetreten', undefined, { duration: 2500 });
+        this.handleError('Fehler beim Laden der Parameter', new Error('iframe is falsy'));
       }
     } else {
-      this.snackbar.open('Es ist ein Fehler aufgetreten', undefined, { duration: 2500 });
+      this.handleError('Fehler beim Laden der Parameter', new Error('currentUrl$ value is null'));
     }
   }
 
@@ -171,5 +176,12 @@ export class FaxComponent implements OnInit {
     payload.einsatzort = { ...payload.einsatzort };
     delete payload.einsatzort.nominatimEnabled;
     return payload;
+  }
+
+  private handleError(title: string, err: unknown) {
+    this.snackbar.open(title, 'Mehr', { duration: 5000 })
+      .onAction()
+      .pipe(take(1))
+      .subscribe(_ => this.dialog.open(ErrorDialogComponent, { data: err }))
   }
 }

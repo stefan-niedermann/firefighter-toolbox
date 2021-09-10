@@ -23,6 +23,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 import { MatListModule } from '@angular/material/list';
 import { UrlEncodePipe } from './url-encode-pipe/url-encode.pipe';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { UrlEncodePipe } from './url-encode-pipe/url-encode.pipe';
     FaxComponent,
     NominatimDialogComponent,
     ShareDialogComponent,
-    UrlEncodePipe
+    UrlEncodePipe,
+    ErrorDialogComponent
   ],
   imports: [
     CommonModule,
