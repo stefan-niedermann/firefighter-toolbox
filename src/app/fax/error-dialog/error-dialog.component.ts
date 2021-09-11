@@ -7,16 +7,18 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ErrorDialogComponent implements OnInit {
 
-  e: Error = new Error();
+  error: Error = new Error();
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private err: any,
+    @Inject(MAT_DIALOG_DATA) private param: any,
   ) { }
 
   ngOnInit() {
-    this.e = (this.err instanceof Error)
-      ? this.err
-      : new Error(this.err);
+    const error = (this.param instanceof Error)
+      ? this.param
+      : new Error(this.param);
+    error.message = encodeURIComponent(error.message);
+    this.error = error;
   }
 
 }

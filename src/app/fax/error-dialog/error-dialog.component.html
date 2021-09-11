@@ -1,10 +1,10 @@
-<h1 mat-dialog-title>Es ist ein Fehler aufgetreten: {{e.message}}</h1>
+<h1 mat-dialog-title>Es ist ein Fehler aufgetreten: {{error.message}}</h1>
 <div mat-dialog-content>
     <code>
-        {{e.stack}}
+        {{error.stack}}
     </code>
 </div>
-<div mat-dialog-actions align="end">
-    <a mat-button href="https://github.com/stefan-niedermann/firefighter-exercise-operation-fax-generator/issues/new?title={{e.message | urlEncode}}&body=%60%60%60%0A{{e.stack | urlEncode}}%0A%60%60%60&assignees=&labels=bug" target="_blank">Melden</a>
+<div mat-dialog-actions [align]="'end'">
+    <a mat-button href="https://github.com/stefan-niedermann/firefighter-exercise-operation-fax-generator/issues/new?title={{error.message}}&body=%60%60%60%0A{{error.stack}}%0A%60%60%60&assignees=&labels=bug" target="_blank">Melden</a>
     <button mat-button mat-dialog-close cdkFocusInitial>Schließen</button>
 </div>

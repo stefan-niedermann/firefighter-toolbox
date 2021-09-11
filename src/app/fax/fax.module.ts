@@ -22,7 +22,6 @@ import { FaxComponent } from './fax.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 import { MatListModule } from '@angular/material/list';
-import { UrlEncodePipe } from './url-encode-pipe/url-encode.pipe';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 
 
@@ -31,7 +30,6 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
     FaxComponent,
     NominatimDialogComponent,
     ShareDialogComponent,
-    UrlEncodePipe,
     ErrorDialogComponent
   ],
   imports: [

@@ -6,7 +6,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MockPipe, MockProvider } from 'ng-mocks';
-import { UrlEncodePipe } from '../url-encode-pipe/url-encode.pipe';
 
 import { ShareDialogComponent } from './share-dialog.component';
 
@@ -24,7 +23,6 @@ describe('ShareDialogComponent', () => {
       ],
       declarations: [
         ShareDialogComponent,
-        MockPipe(UrlEncodePipe),
       ],
       providers: [
         MockProvider(MatBottomSheetRef),
