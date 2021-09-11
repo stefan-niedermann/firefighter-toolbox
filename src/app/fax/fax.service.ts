@@ -136,7 +136,7 @@ export class FaxService {
     return `${location.protocol}//${location.host}${location.pathname}?${this.QUERY_PARAM_KEY}=${this.serialize(payload)}`
   }
 
-  public deserialize(param: string, decode = false): SerializationModel {
+  public deserialize(param: string, decode = true): SerializationModel {
     const data = JSON.parse(
       decode
         ? decodeURI(param)
