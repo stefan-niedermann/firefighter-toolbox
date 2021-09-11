@@ -5,7 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-share-dialog',
-  templateUrl: './share-dialog.component.html'
+  templateUrl: './share-dialog.component.html',
+  styleUrls: ['./share-dialog.component.scss']
 })
 export class ShareDialogComponent {
 

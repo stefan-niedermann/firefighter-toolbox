@@ -1,12 +1,12 @@
 <p>Beim Teilen werden alle im Fax enthaltenen Informationen an den jeweiligen Anbieter übermittelt.</p>
 
-<mat-nav-list>
-    <a mat-list-item (click)="copyLink(url)">
+<mat-action-list>
+    <button mat-list-item (click)="copyLink(url)">
         <mat-icon mat-list-icon>content_copy</mat-icon>
         <span mat-line>Link kopieren</span>
-    </a>
+    </button>
 
-    <a href="https://t.me/share/url?url={{url | urlEncode}}" mat-list-item>
+    <a href="tg://msg_url?url={{url | urlEncode}}" mat-list-item>
         <mat-icon mat-list-icon>telegram</mat-icon>
         <span mat-line>Telegram</span>
     </a>
@@ -25,4 +25,4 @@
         <mat-icon mat-list-icon>sms</mat-icon>
         <span mat-line>SMS</span>
     </a>
-</mat-nav-list>
+</mat-action-list>
