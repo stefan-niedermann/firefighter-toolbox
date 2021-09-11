@@ -58,7 +58,10 @@ export class FaxComponent implements OnInit {
   readonly filteredStichwoerter: Observable<string[]> = (this.form.get('einsatzgrund')?.get('stichwort') as FormGroup).valueChanges.pipe(
     startWith(''),
     map(value => {
-      const filterValue = value.toLowerCase();
+      let filterValue = value.toLowerCase();
+      if ('brand'.startsWith(filterValue) && filterValue.length <= 5 && filterValue.length > 1) {
+        filterValue = 'b ';
+      }
       return Stichwoerter.filter(stichwort => stichwort.toLowerCase().startsWith(filterValue));
     })
   );
