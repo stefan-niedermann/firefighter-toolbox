@@ -131,10 +131,10 @@
         </mat-expansion-panel>
     </mat-accordion>
     <div class="btn-bar">
-        <button type="button" mat-raised-button color="primary" (click)="download()">
+        <button type="button" mat-raised-button color="primary" (click)="download()" matTooltip="Strg + S">
             <mat-icon>download</mat-icon>Download
         </button>
-        <button type="button" mat-raised-button color="accent" (click)="print()">
+        <button type="button" mat-raised-button color="accent" (click)="print()" matTooltip="Strg + P">
             <mat-icon>print</mat-icon><span class="btn-text">Drucken</span>
         </button>
         <button type="button" mat-raised-button color="accent" (click)="share()">

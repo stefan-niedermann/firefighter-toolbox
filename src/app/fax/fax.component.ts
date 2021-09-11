@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, debounce, map, merge, Observable, ReplaySubject, startWith, switchMap, take, tap, timer } from 'rxjs';
 import { FaxService } from './fax.service';
@@ -118,7 +118,9 @@ export class FaxComponent implements OnInit {
     this.einsatzmittel.removeAt(index);
   }
 
-  download() {
+  @HostListener('document:keydown.control.s', ['$event'])
+  download(event?: KeyboardEvent) {
+    event?.preventDefault();
     const url = this.currentUrl$.getValue();
     if (url !== null) {
       const a = document.createElement('a');
@@ -158,7 +160,9 @@ export class FaxComponent implements OnInit {
     }
   }
 
-  print() {
+  @HostListener('document:keydown.control.p', ['$event'])
+  print(event?: KeyboardEvent) {
+    event?.preventDefault();
     const url = this.currentUrl$.getValue();
     if (url !== null) {
       const iframe = this.printIframe?.nativeElement;
