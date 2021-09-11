@@ -1,28 +1,13 @@
 <p>Beim Teilen werden alle im Fax enthaltenen Informationen an den jeweiligen Anbieter übermittelt.</p>
 
 <mat-action-list>
-    <button mat-list-item (click)="copyLink(url)">
+    <button mat-list-item (click)="copyLink()">
         <mat-icon mat-list-icon>content_copy</mat-icon>
         <span mat-line>Link kopieren</span>
     </button>
 
-    <a href="tg://msg_url?url={{url | urlEncode}}" mat-list-item>
-        <mat-icon mat-list-icon>telegram</mat-icon>
-        <span mat-line>Telegram</span>
-    </a>
-
-    <a href="whatsapp://send?text={{url | urlEncode}}" mat-list-item>
-        <mat-icon mat-list-icon>whatsapp</mat-icon>
-        <span mat-line>Whatsapp</span>
-    </a>
-
-    <a href="mailto:?body={{url | urlEncode}}" mat-list-item>
-        <mat-icon mat-list-icon>mail</mat-icon>
-        <span mat-line>E-Mail</span>
-    </a>
-
-    <a href="sms:?body={{url | urlEncode}}" mat-list-item>
-        <mat-icon mat-list-icon>sms</mat-icon>
-        <span mat-line>SMS</span>
+    <a mat-list-item *ngFor="let channel of socialMediaChannels" [href]="channel.safeShareUrl">
+        <mat-icon mat-list-icon>{{channel.icon}}</mat-icon>
+        <span mat-line>{{channel.name}}</span>
     </a>
 </mat-action-list>

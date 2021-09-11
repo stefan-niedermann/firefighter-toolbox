@@ -4,6 +4,7 @@ import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bott
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DomSanitizer } from '@angular/platform-browser';
 import { MockPipe, MockProvider } from 'ng-mocks';
 import { UrlEncodePipe } from '../url-encode-pipe/url-encode.pipe';
 
@@ -27,6 +28,7 @@ describe('ShareDialogComponent', () => {
       ],
       providers: [
         MockProvider(MatBottomSheetRef),
+        MockProvider(DomSanitizer),
         { provide: MAT_BOTTOM_SHEET_DATA, useValue: '' }
       ]
     })
