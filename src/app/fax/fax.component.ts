@@ -143,13 +143,16 @@ export class FaxComponent implements OnInit {
 
   share() {
     if ('share' in navigator) {
-      var share = {
+      navigator.share({
         title: this.faxService.generateDownloadFilename(),
         url: this.faxService.generateShareLink(this.getPayload())
-      };
-      navigator.share(share)
+      })
         .then(() => console.log('Successful share'))
-        .catch((e) => this.handleError('Beim Teilen ist ein Fehler aufgetreten', e));
+        .catch((e) => {
+          if (e.name !== 'AbortError') {
+            this.handleError('Fehler beim Teilen', e);
+          }
+        });
     } else {
       this.bottomSheet.open(ShareDialogComponent, {
         data: this.faxService.generateShareLink(this.getPayload())
@@ -181,7 +184,7 @@ export class FaxComponent implements OnInit {
   }
 
   private getPayload() {
-    const payload = { ... this.form.value };
+    const payload = { ...this.form.value };
     payload.einsatzort = { ...payload.einsatzort };
     delete payload.einsatzort.nominatimEnabled;
     return payload;
