@@ -19,7 +19,6 @@ import { MockDeclaration, MockProvider } from 'ng-mocks';
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
 
 import { FaxService } from './fax.service';
-import { UtilService } from './util.service';
 import { FaxComponent } from './fax.component';
 import { NominatimService } from './nominatim.service';
 import { Platform } from '@angular/cdk/platform';
@@ -51,11 +50,10 @@ describe('FaxComponent', () => {
       ],
       providers: [
         MockProvider(FaxService),
-        MockProvider(UtilService),
         MockProvider(NominatimService),
         MockProvider(ActivatedRoute),
-        MockProvider(Router),
         MockProvider(Platform),
+        MockProvider(Router),
       ],
       declarations: [
         FaxComponent,

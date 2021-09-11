@@ -9,6 +9,8 @@ import { UtilService } from './util.service';
 })
 export class FaxService {
 
+  public readonly QUERY_PARAM_KEY = 'content';
+  private readonly MODEL_VERSION = 1;
   private readonly x = 20;
 
   constructor(
@@ -22,7 +24,7 @@ export class FaxService {
         let y = 25;
 
         const getY = (doc: jsPDF) => {
-          if (y > doc.internal.pageSize.height - 30) {
+          if (y > doc.internal.pageSize.height - 25) {
             doc.addPage();
             FaxService.addWaterMark(doc);
             y = 25;
@@ -119,7 +121,7 @@ export class FaxService {
       .shift() as string;
 
     doc.text(preparedText, this.x, getY(doc));
-    
+
     for (let i = 1; i < preparedText.split('\n').length; i++) {
       getY(doc);
     }
@@ -131,6 +133,171 @@ export class FaxService {
   }
 
   public generateShareLink(payload: any): string {
-    return `${location.protocol}//${location.host}${location.pathname}?content=${this.utils.serialize(payload)}`
+    return `${location.protocol}//${location.host}${location.pathname}?${this.QUERY_PARAM_KEY}=${this.serialize(payload)}`
   }
+
+  public deserialize(param: string, decode = false): SerializationModel {
+    const data = JSON.parse(
+      decode
+        ? decodeURI(param)
+        : param
+    );
+
+    const model: SerializationModel = {};
+
+    if (!data) {
+      return model;
+    }
+
+    const payload = data.payload;
+
+    if (!payload) {
+      return model;
+    }
+
+    if (
+      typeof data.v !== 'number' ||
+      data.v <= 0 ||
+      data.v > this.MODEL_VERSION
+    ) {
+      throw new Error(`Model version ${data.v} is not supported. Current model version: ${this.MODEL_VERSION}`);
+    }
+
+    if (data.v === 1) {
+      if (typeof payload.mitteiler === 'string') {
+        model.mitteiler = payload.mitteiler;
+      }
+      if (typeof payload.einsatzort === 'object') {
+        const address: Address = {};
+        ['strasse', 'hnr', 'ort', 'objekt'].forEach(key => {
+          if (typeof payload.einsatzort[key] === 'string') {
+            (address as any)[key] = payload.einsatzort[key];
+          }
+        });
+        if (Object.keys(address).length > 0) {
+          model.einsatzort = address;
+        }
+      }
+      if (typeof payload.zielort === 'object') {
+        const address: Address = {};
+        ['strasse', 'hnr', 'ort', 'objekt'].forEach(key => {
+          if (typeof payload.zielort[key] === 'string') {
+            (address as any)[key] = payload.zielort[key];
+          }
+        });
+        if (Object.keys(address).length > 0) {
+          model.zielort = address;
+        }
+      }
+      if (typeof payload.patient === 'object') {
+        model.patient = payload.patient;
+      }
+      if (Array.isArray(payload.einsatzmittel)) {
+        model.einsatzmittel = (data.payload.einsatzmittel as []).map((e: any) => {
+          const einsatzmittel: Einsatzmittel = {};
+          if (typeof e.name === 'string') {
+            einsatzmittel.name = e.name;
+          }
+          if (typeof e.alarmiert === 'string') {
+            einsatzmittel.alarmiert = e.alarmiert;
+          }
+          if (typeof e.aus === 'string') {
+            einsatzmittel.aus = e.aus;
+          }
+          return einsatzmittel;
+        });
+      }
+      if (typeof payload.bemerkung === 'object') {
+        model.bemerkung = payload.bemerkung;
+      }
+      if (typeof payload.einsatzgrund === 'object') {
+        const einsatzgrund: Einsatzgrund = {};
+        if (typeof payload.einsatzgrund.schlagwort === 'string') {
+          einsatzgrund.schlagwort = payload.einsatzgrund.schlagwort;
+        }
+        if (typeof payload.einsatzgrund.stichwort === 'string') {
+          einsatzgrund.stichwort = payload.einsatzgrund.stichwort;
+        }
+        if (Object.keys(einsatzgrund).length > 0) {
+          model.einsatzgrund = einsatzgrund;
+        }
+      }
+    }
+
+    return model;
+  }
+
+  public serialize(payload: any, encode = true): string {
+    let first = true;
+    const serializedParams = JSON.stringify({
+      v: this.MODEL_VERSION,
+      payload: {
+        mitteiler: payload.mitteiler,
+        einsatzort: {
+          strasse: payload.einsatzort?.strasse,
+          hnr: payload.einsatzort?.hnr,
+          objekt: payload.einsatzort?.objekt,
+          ort: payload.einsatzort?.ort,
+        },
+        zielort: {
+          strasse: payload.zielort?.strasse,
+          hnr: payload.zielort?.hnr,
+          objekt: payload.zielort?.objekt,
+          ort: payload.zielort?.ort,
+        },
+        patient: payload.patient,
+        einsatzmittel: Array.isArray(payload.einsatzmittel)
+          ? payload.einsatzmittel.map((e: any) => {
+            return {
+              name: e.name,
+              alarmiert: e.alarmiert,
+              aus: e.aus,
+            }
+          }) : [],
+        bemerkung: payload.bemerkung,
+        einsatzgrund: {
+          schlagwort: payload.einsatzgrund?.schlagwort,
+          stichwort: payload.einsatzgrund?.stichwort
+        }
+      }
+    }, (k, v) => {
+      if (first) {
+        first = false;
+      } else if (!this.utils.hasContent(v)) {
+        return undefined;
+      }
+      return v;
+    });
+    return encode
+      ? encodeURI(serializedParams)
+      : serializedParams;
+  }
+}
+
+export interface SerializationModel {
+  mitteiler?: string,
+  einsatzort?: Address,
+  zielort?: Address,
+  patient?: string,
+  einsatzgrund?: Einsatzgrund,
+  einsatzmittel?: Einsatzmittel[],
+  bemerkung?: string,
+}
+
+export interface Einsatzgrund {
+  schlagwort?: string,
+  stichwort?: string,
+}
+
+export interface Address {
+  strasse?: string,
+  hnr?: string,
+  objekt?: string,
+  ort?: string,
+}
+
+export interface Einsatzmittel {
+  name?: string,
+  alarmiert?: string,
+  aus?: string,
 }

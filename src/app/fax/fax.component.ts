@@ -5,7 +5,6 @@ import { FaxService } from './fax.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NominatimService } from './nominatim.service';
-import { UtilService } from './util.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.component';
 import { Stichwoerter } from './stichwoerter';
@@ -65,41 +64,39 @@ export class FaxComponent implements OnInit {
   );
   readonly url$ = merge(
     this.initialFormState,
-    this.form.valueChanges.pipe(debounce(_ => timer(500)))
+    this.form.valueChanges.pipe(
+      tap(values => this.router.navigate([], { queryParams: { 'content': this.faxService.serialize(values, false) } })),
+      debounce(_ => timer(500)),
+    )
   ).pipe(
     switchMap(next => this.faxService.generateFax(next)),
     map(blob => URL.createObjectURL(blob)),
-    tap(url => this.currentUrl$.next(url))
+    tap(url => this.currentUrl$.next(url)),
   );
 
   constructor(
     private readonly faxService: FaxService,
     private readonly nominatimService: NominatimService,
-    private readonly utils: UtilService,
-    private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly snackbar: MatSnackBar,
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
     private readonly platform: Platform,
+    private readonly router: Router,
   ) { }
 
   ngOnInit(): void {
-    if (this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParamMap.has('content')) {
+    if (this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParamMap.has(this.faxService.QUERY_PARAM_KEY)) {
       try {
-        const param = this.activatedRoute.snapshot.queryParamMap.get('content') || '';
-        const obj = this.utils.deserialize(param);
-        if (obj.einsatzort) {
-          delete obj.einsatzort.nominatimEnabled;
-        }
+        const param = this.activatedRoute.snapshot.queryParamMap.get(this.faxService.QUERY_PARAM_KEY) || '';
+        const obj = this.faxService.deserialize(param);
         this.form.patchValue(obj);
         this.einsatzmittel.clear();
-        if (Array.isArray(obj.einsatzmittel)) {
+        if (obj.einsatzmittel) {
           for (let e of obj.einsatzmittel) {
             this.addEinsatzmittel(e.name, e.alarmiert, e.aus);
           }
         }
-        this.router.navigate([]);
       } catch (e) {
         this.handleError('Fehler beim Laden der Parameter', e);
       }
@@ -142,10 +139,11 @@ export class FaxComponent implements OnInit {
   }
 
   share() {
+    const shareLink = this.faxService.generateShareLink(this.form.value);
     if ('share' in navigator) {
       navigator.share({
         title: this.faxService.generateDownloadFilename(),
-        url: this.faxService.generateShareLink(this.getPayload())
+        url: shareLink
       })
         .then(() => console.log('Successful share'))
         .catch((e) => {
@@ -155,7 +153,7 @@ export class FaxComponent implements OnInit {
         });
     } else {
       this.bottomSheet.open(ShareDialogComponent, {
-        data: this.faxService.generateShareLink(this.getPayload())
+        data: shareLink
       });
     }
   }
@@ -181,13 +179,6 @@ export class FaxComponent implements OnInit {
     } else {
       this.handleError('Fehler beim Laden der Parameter', new Error('currentUrl$ value is null'));
     }
-  }
-
-  private getPayload() {
-    const payload = { ...this.form.value };
-    payload.einsatzort = { ...payload.einsatzort };
-    delete payload.einsatzort.nominatimEnabled;
-    return payload;
   }
 
   private handleError(title: string, err: unknown) {

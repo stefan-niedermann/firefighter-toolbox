@@ -19,23 +19,7 @@ export class UtilService {
     return result;
   }
 
-  public deserialize(param: string): any {
-    return JSON.parse(decodeURI(param));
-  }
-
-  public serialize(input: object): string {
-    let first = true;
-    return encodeURI(JSON.stringify(input, (k, v) => {
-      if (first) {
-        first = false;
-      } else if (!this.hasContent(v)) {
-        return undefined;
-      }
-      return v;
-    }));
-  }
-
-  private hasContent(obj: any): boolean {
+  public hasContent(obj: any): boolean {
     if (obj === '') {
       return false;
     } else if (obj === null) {
