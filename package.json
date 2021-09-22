@@ -40,7 +40,7 @@
     "@cypress/schematic": "^1.5.1",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.9.4",
-    "@types/pdfjs-dist": "^2.7.4",
+    "@types/pdfjs-dist": "^2.7.5",
     "@typescript-eslint/eslint-plugin": "4.31.2",
     "@typescript-eslint/parser": "4.31.2",
     "canvas": "^2.8.0",
