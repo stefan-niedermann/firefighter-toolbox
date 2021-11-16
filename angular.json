@@ -30,7 +30,7 @@
               "src/assets",
               {
                 "glob": "pdf.worker.min.js",
-                "input": "node_modules/ng2-pdf-viewer/node_modules/pdfjs-dist/build/",
+                "input": "node_modules/pdfjs-dist/build/",
                 "output": "assets/"
               }
             ],
