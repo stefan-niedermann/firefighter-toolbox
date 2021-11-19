@@ -1,12 +1,12 @@
 <form [formGroup]="form">
     <mat-accordion class="example-headers-align">
         <mat-expansion-panel>
-            <mat-expansion-panel-header>
+            <mat-expansion-panel-header data-test="mitteiler-panel">
                 <mat-panel-title>Mitteiler</mat-panel-title>
             </mat-expansion-panel-header>
             <mat-form-field appearance="fill">
                 <mat-label>Mitteiler</mat-label>
-                <textarea formControlName="mitteiler" matInput cdkTextareaAutosize></textarea>
+                <textarea formControlName="mitteiler" matInput cdkTextareaAutosize data-test="mitteiler-input"></textarea>
             </mat-form-field>
         </mat-expansion-panel>
         <mat-expansion-panel formGroupName="einsatzort">
