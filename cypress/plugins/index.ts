@@ -9,6 +9,6 @@ const parsePdf =
 
 module.exports = (on, config) => {
   on('task', {
-    getPdfContent: (pdfName) => pdf(fs.readFileSync(path.join('cypress/downloads/', pdfName)))
+    getPdfContent: (pdfName: string) => pdf(fs.readFileSync(path.join('cypress/downloads/', pdfName)))
   })
 };
