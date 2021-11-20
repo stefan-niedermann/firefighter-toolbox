@@ -29,14 +29,14 @@ describe('the exercise operation fax generator', () => {
 
   describe('the live preview', () => {
     it('should always contain a hint that this is an exercise fax', () => {
-      cy.contains('ÜBUNGS-FAX');
+      cy.get('.preview').contains('ÜBUNGS-FAX');
     });
 
     it('should display entered information', () => {
-      cy.contains(sampleText).should('not.exist');
+      cy.get('.preview').contains(sampleText).should('not.exist');
       cy.get('[data-test="mitteiler-panel"]').click();
       cy.get('[data-test="mitteiler-input"]').type(sampleText);
-      cy.contains(sampleText).should('exist');
+      cy.get('.preview').contains(sampleText).should('exist');
     });
   });
 
@@ -50,7 +50,7 @@ describe('the exercise operation fax generator', () => {
       });
     });
 
-    it('should pass the entered text to the downloadable PDF version', () => {
+    it('should pass the entered text to the downloadable PDF', () => {
       cy.get('[data-test="mitteiler-panel"]').click();
       cy.get('[data-test="mitteiler-input"]').type(sampleText);
       cy.wait(1_000);
