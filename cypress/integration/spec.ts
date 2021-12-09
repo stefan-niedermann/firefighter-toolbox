@@ -46,7 +46,7 @@ describe('the exercise operation fax generator', () => {
       cy.get('[data-test="download-button"]').click();
       const date = new Date();
       cy.task('getPdfContent', `Übungs-Fax ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}.pdf`).then(content => {
-        expect(content.text).to.contain('ÜBUNGS-FAX');
+        expect((content as any).text).to.contain('ÜBUNGS-FAX');
       });
     });
 
@@ -57,7 +57,7 @@ describe('the exercise operation fax generator', () => {
       cy.get('[data-test="download-button"]').click();
       const date = new Date();
       cy.task('getPdfContent', `Übungs-Fax ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}.pdf`).then(content => {
-        expect(content.text).to.contain(sampleText);
+        expect((content as any)).to.contain(sampleText);
       });
     });
   });
