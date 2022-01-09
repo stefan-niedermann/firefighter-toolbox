@@ -35,6 +35,16 @@ jobs:
         run: npm ci
       - name: Run End to End tests
         run: npm run e2e
+      - name: Upload downloads
+        uses: actions/upload-artifact@v2
+        with:
+          name: e2e-downloads
+          path: cypress/downloads
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v2
+        with:
+          name: e2e-screenshots
+          path: cypress/screenshots
       - name: Upload videos
         uses: actions/upload-artifact@v2
         with:
