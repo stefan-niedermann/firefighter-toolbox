@@ -23,7 +23,7 @@ import { FaxComponent } from './fax.component';
 import { NominatimService } from './nominatim.service';
 import { Platform } from '@angular/cdk/platform';
 
-xdescribe('FaxComponent', () => {
+describe('FaxComponent', () => {
   let component: FaxComponent;
   let fixture: ComponentFixture<FaxComponent>;
 
