@@ -12,11 +12,9 @@ export class UtilService {
    * @returns a string of the given length containing random numbers
    */
   public random(length = 1): string {
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      result += Math.floor(Math.random() * 10);
-    }
-    return result;
+    return [...new Array(length)]
+      .map(() => Math.floor(Math.random() * 10))
+      .join('')
   }
 
   public hasContent(obj: any): boolean {
