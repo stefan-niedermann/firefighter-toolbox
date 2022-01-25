@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-    <mat-accordion class="example-headers-align">
+    <mat-accordion>
         <mat-expansion-panel>
             <mat-expansion-panel-header data-test="mitteiler-panel">
                 <mat-panel-title>Mitteiler</mat-panel-title>
@@ -9,14 +9,14 @@
                 <textarea formControlName="mitteiler" matInput cdkTextareaAutosize data-test="mitteiler-input"></textarea>
             </mat-form-field>
         </mat-expansion-panel>
-        <mat-expansion-panel formGroupName="einsatzort">
+        <mat-expansion-panel formGroupName="einsatzort" expanded>
             <mat-expansion-panel-header>
                 <mat-panel-title>Einsatzort</mat-panel-title>
             </mat-expansion-panel-header>
             <address>
                 <mat-form-field appearance="fill">
                     <mat-label>Straße</mat-label>
-                    <input formControlName="strasse" matInput />
+                    <input formControlName="strasse" matInput autofocus />
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Haus-Nr.</mat-label>
@@ -99,15 +99,15 @@
                     <ng-container [formGroupName]="i">
                         <mat-form-field appearance="fill">
                             <mat-label>Name</mat-label>
-                            <input formControlName="name" matInput />
+                            <input formControlName="name" matInput (keydown.enter)="addEinsatzmittel()" />
                         </mat-form-field>
                         <mat-form-field appearance="fill">
                             <mat-label>Alarmiert</mat-label>
-                            <input formControlName="alarmiert" matInput />
+                            <input formControlName="alarmiert" matInput (keydown.enter)="addEinsatzmittel()" />
                         </mat-form-field>
                         <mat-form-field appearance="fill">
                             <mat-label>Aus</mat-label>
-                            <input formControlName="aus" matInput />
+                            <input formControlName="aus" matInput (keydown.enter)="addEinsatzmittel()" />
                         </mat-form-field>
                         <button type="button" mat-icon-button (click)="removeEinsatzmittel(i)"
                             matTooltip="Dieses Einsatzmittel löschen">

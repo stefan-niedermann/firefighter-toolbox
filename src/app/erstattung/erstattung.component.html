@@ -1,0 +1,101 @@
+<form [formGroup]="form">
+    <mat-accordion multi>
+        <mat-expansion-panel formGroupName="allgemeines" [expanded]="!isPersistenceEnabledOnStartup">
+            <mat-expansion-panel-header data-test="allgemeines-panel">
+                <mat-panel-title>Allgemeine Informationen</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="fill">
+                <mat-label>Name der Feuerwehr</mat-label>
+                <input formControlName="wehr" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Name des Ausstellers</mat-label>
+                <input formControlName="aussteller" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Rolle des Ausstellers</mat-label>
+                <input formControlName="rolle" matInput [matAutocomplete]="rollenAutocomplete">
+                <mat-autocomplete autoActiveFirstOption #rollenAutocomplete="matAutocomplete">
+                    <mat-option *ngFor="let rolle of rollen$ | async" [value]="rolle">
+                        {{rolle}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Kontakt</mat-label>
+                <input formControlName="kontakt" placeholder="Telefonnummer oder E-Mail-Adresse" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Ort (falls von Wehr abweichend)</mat-label>
+                <input formControlName="ort" matInput />
+            </mat-form-field>
+            <p>
+                <mat-slide-toggle color="primary" formControlName="persist" (click)="togglePersistence()">
+                    In diesem Browser speichern
+                </mat-slide-toggle>
+            </p>
+        </mat-expansion-panel>
+        <mat-expansion-panel formGroupName="einsatz" expanded>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Einsatz</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="fill">
+                <mat-label>Grund</mat-label>
+                <input formControlName="grund" matInput [matAutocomplete]="gruendeAutocomplete">
+                <mat-autocomplete autoActiveFirstOption #gruendeAutocomplete="matAutocomplete">
+                    <mat-option *ngFor="let grund of gruende$ | async" [value]="grund">
+                        {{grund}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Datum</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="datum">
+                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker></mat-datepicker>
+            </mat-form-field>
+        </mat-expansion-panel>
+        <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Personal</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ul formArrayName="personal">
+                <li *ngFor="let control of personal.controls; index as i">
+                    <ng-container [formGroupName]="i">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Name</mat-label>
+                            <input formControlName="name" matInput placeholder="Max Mustermann" (keydown.enter)="addPerson()" />
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Von</mat-label>
+                            <span matSuffix>Uhr</span>
+                            <input formControlName="von" matInput placeholder="00:00" (keydown.enter)="addPerson()" />
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Bis</mat-label>
+                            <span matSuffix>Uhr</span>
+                            <input formControlName="bis" matInput placeholder="00:00" (keydown.enter)="addPerson()" />
+                        </mat-form-field>
+                        <button type="button" mat-icon-button (click)="removePerson(i)"
+                            matTooltip="Dieses Einsatzmittel löschen">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </ng-container>
+                </li>
+            </ul>
+            <button type="button" mat-raised-button color="accent" matTooltip="Enter" (click)="addPerson()">
+                <mat-icon>add</mat-icon> Hinzufügen
+            </button>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <div class="btn-bar">
+        <button type="button" mat-raised-button color="primary" (click)="download()" matTooltip="Strg + S"
+            data-test="download-button">
+            <mat-icon>download</mat-icon>Download
+        </button>
+        <button type="button" mat-raised-button color="accent" (click)="print()" matTooltip="Strg + P">
+            <mat-icon>print</mat-icon><span class="btn-text">Drucken</span>
+        </button>
+    </div>
+    <iframe #printIframe frameborder="0" style="display: none"></iframe>
+</form>

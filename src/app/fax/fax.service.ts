@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { jsPDF } from 'jspdf';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { NominatimService } from './nominatim.service';
 import { UtilService } from './util.service';
 

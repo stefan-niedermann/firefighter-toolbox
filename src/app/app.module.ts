@@ -9,6 +9,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { GeneratedLicenseFileAvailable } from './about/licenses/licenses.service';
 import { environment } from 'src/environments/environment';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { DatePipe, getLocaleExtraDayPeriodRules, registerLocaleData } from '@angular/common';
+import localeDeExtra from '@angular/common/locales/extra/de';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+registerLocaleData(getLocaleExtraDayPeriodRules, 'de-DE', localeDeExtra);
 
 @NgModule({
   declarations: [
@@ -16,13 +23,19 @@ import { environment } from 'src/environments/environment';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule.withConfig({
+      disableAnimations: window.matchMedia("(prefers-reduced-motion)").matches
+    }),
     HttpClientModule,
     AppRoutingModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatTooltipModule
   ],
   providers: [
+    DatePipe,
     { provide: GeneratedLicenseFileAvailable, useValue: environment.production }
   ],
   bootstrap: [AppComponent]

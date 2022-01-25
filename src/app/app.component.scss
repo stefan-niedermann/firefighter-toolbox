@@ -1,10 +1,16 @@
-a {
-    color: white;
-    text-decoration: none;
+mat-toolbar {
+    gap: 1rem;
 }
 
-a:focus {
-    outline-offset: .5rem;
+mat-icon {
+    vertical-align: middle;
+    position: relative;
+    bottom: 3px;
+}
+
+h1 {
+    display: inline-block;
+    margin-left: 1rem;
 }
 
 .spacer {

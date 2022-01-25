@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, debounce, map, merge, Observable, ReplaySubject, startWith, switchMap, take, tap, timer } from 'rxjs';
 import { FaxService } from './fax.service';
@@ -11,7 +11,7 @@ import { Stichwoerter } from './stichwoerter';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 import { Platform } from '@angular/cdk/platform';
-import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../shared/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-fax',
@@ -20,7 +20,7 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 })
 export class FaxComponent implements OnInit {
 
-  @ViewChild('printIframe', { static: false }) printIframe: undefined | ElementRef<HTMLIFrameElement>;
+  @ViewChild('printIframe', { static: false }) printIframe!: ElementRef<HTMLIFrameElement>;
 
   private readonly initialFormState = new ReplaySubject(1);
   private readonly currentUrl$ = new BehaviorSubject<string | null>(null);
@@ -84,7 +84,7 @@ export class FaxComponent implements OnInit {
     private readonly snackbar: MatSnackBar,
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
-    private readonly platform: Platform,
+    private readonly cdr: ChangeDetectorRef,
     private readonly router: Router,
   ) { }
 
@@ -114,7 +114,9 @@ export class FaxComponent implements OnInit {
         alarmiert: new FormControl(alarmiert),
         aus: new FormControl(aus)
       })
-    );
+    )
+    this.cdr.detectChanges();
+    (document.querySelector('[formArrayName="einsatzmittel"] li:last-child input') as HTMLElement)?.focus()
   }
 
   removeEinsatzmittel(index: number) {
@@ -168,21 +170,9 @@ export class FaxComponent implements OnInit {
     event?.preventDefault();
     const url = this.currentUrl$.getValue();
     if (url !== null) {
-      const iframe = this.printIframe?.nativeElement;
-      if (iframe) {
-        iframe.setAttribute('src', url);
-        iframe.onload = () => {
-          if (this.platform.FIREFOX) {
-            const renderTime = 1000;
-            this.snackbar.open('Fax wird gedruckt…', undefined, { duration: renderTime });
-            setTimeout(() => iframe.contentWindow?.print(), renderTime);
-          } else {
-            iframe.contentWindow?.print();
-          }
-        }
-      } else {
-        this.handleError('Fehler beim Laden der Parameter', new Error('iframe is falsy'));
-      }
+      const iframe = this.printIframe.nativeElement;
+      iframe.setAttribute('src', url);
+      iframe.onload = () => iframe.contentWindow?.print()
     } else {
       this.handleError('Fehler beim Laden der Parameter', new Error('currentUrl$ value is null'));
     }

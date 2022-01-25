@@ -1,0 +1,51 @@
+:host {
+    display: block;
+    padding: 2rem;
+
+    @media (min-width: 700px) {
+        max-width: 1640px;
+        width: 80%;
+        margin: auto;
+    }
+}
+
+mat-form-field {
+    width: calc(100% / 3 - 1rem);
+    margin-right: 1rem;
+
+    &:last-child {
+        margin-left: 0;
+    }
+}
+
+mat-slide-toggle {
+    vertical-align: middle;
+}
+
+ul {
+    padding: 0;
+    li {
+        list-style: none;
+        display: flex;
+        gap: 1rem;
+
+        mat-form-field {
+            flex: 1 1 auto;
+            margin: 0;
+        }
+    }
+}
+
+.btn-bar {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    
+    .btn-text {
+        display: none;
+    
+        @media (min-width: 980px) {
+            display: inline;
+        }
+    }
+}

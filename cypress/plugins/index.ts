@@ -7,7 +7,7 @@ const pdf = require('pdf-parse');
 
 const parsePdf = 
 
-module.exports = (on, config) => {
+module.exports = (on: any, config: any) => {
   on('task', {
     getPdfContent: (pdfName: string) => pdf(fs.readFileSync(path.join('cypress/downloads/', pdfName)))
   })

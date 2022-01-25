@@ -62,12 +62,12 @@ jobs:
       - name: Build UI
         run: npm run build
       - name: Add .htaccess to bundle
-        run: mv .htaccess dist/fax-generator/.htaccess
+        run: mv .htaccess dist/firefighter-toolbox/.htaccess
       - name: Stash bundle
         uses: actions/upload-artifact@v2
         with:
           name: bundle
-          path: dist/fax-generator/
+          path: dist/firefighter-toolbox/
   
   deploy:
     name: Deploy

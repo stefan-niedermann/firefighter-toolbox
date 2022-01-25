@@ -22,18 +22,18 @@ import { FaxComponent } from './fax.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 import { MatListModule } from '@angular/material/list';
-import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
   declarations: [
     FaxComponent,
     NominatimDialogComponent,
-    ShareDialogComponent,
-    ErrorDialogComponent
+    ShareDialogComponent
   ],
   imports: [
     CommonModule,
+    SharedModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
