@@ -1,8 +1,21 @@
 describe('the firefighter toolbox', () => {
-  describe('the exercise operation fax generator', () => {
+  const $ = (attr: string) => cy.get(`[data-test="${attr}"]`)
+  const sampleText = 'Lorem Ipsum.'
 
-    const $ = (attr: string) => cy.get(`[data-test="${attr}"]`)
-    const sampleText = 'Lorem Ipsum.'
+  describe('the request for refund', () => {
+    beforeEach(() => {
+      cy.visit('/erstattung')
+    })
+
+    it('should contain the entered information', () => {
+      $('wehr-input').type(sampleText)
+      $('download-button').trigger('click')
+      cy.task('getPdfContent', 'Antrag auf Erstattung.pdf')
+        .then(content => expect((content as any).text).to.contain(sampleText))
+    })
+  })
+
+  describe('the exercise operation fax generator', () => {
     const downloadedFilename = () => `Übungs-Fax ${new Date().toLocaleDateString('de-DE', { year: 'numeric', month: '2-digit', day: '2-digit' })}.pdf`
 
     beforeEach(() => {

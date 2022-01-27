@@ -55,7 +55,7 @@ export class ErstattungComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$),
         filter(_ => this.service.isPersistenceEnabled()),
       )
-      .subscribe(allgemeines => this.service.persistPayload(allgemeines))
+      .subscribe((allgemeines: any) => this.service.persistPayload(allgemeines))
   }
 
   ngOnDestroy(): void {
@@ -91,7 +91,7 @@ export class ErstattungComponent implements OnInit, OnDestroy {
       .then(url => {
         if (url !== null) {
           const a = document.createElement('a');
-          a.setAttribute('download', 'Antrag auf Erstattung');
+          a.setAttribute('download', 'Antrag auf Erstattung.pdf');
           a.setAttribute('href', url)
           a.click();
         } else {

@@ -1,12 +1,12 @@
 <form [formGroup]="form">
     <mat-accordion multi>
         <mat-expansion-panel formGroupName="allgemeines" [expanded]="!isPersistenceEnabledOnStartup">
-            <mat-expansion-panel-header data-test="allgemeines-panel">
+            <mat-expansion-panel-header>
                 <mat-panel-title>Allgemeine Informationen</mat-panel-title>
             </mat-expansion-panel-header>
             <mat-form-field appearance="fill">
                 <mat-label>Name der Feuerwehr</mat-label>
-                <input formControlName="wehr" matInput />
+                <input formControlName="wehr" matInput data-test="wehr-input" />
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Name des Ausstellers</mat-label>
