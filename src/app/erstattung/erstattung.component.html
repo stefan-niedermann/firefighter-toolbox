@@ -1,6 +1,6 @@
 <form [formGroup]="form">
     <mat-accordion multi>
-        <mat-expansion-panel formGroupName="allgemeines" [expanded]="false"data-test="allgemeines-panel" >
+        <mat-expansion-panel formGroupName="allgemeines" [expanded]="!isPersistenceEnabledOnStartup" data-test="allgemeines-panel" >
             <mat-expansion-panel-header>
                 <mat-panel-title>Allgemeine Informationen</mat-panel-title>
             </mat-expansion-panel-header>
@@ -35,7 +35,7 @@
                 </mat-slide-toggle>
             </p>
         </mat-expansion-panel>
-        <mat-expansion-panel formGroupName="einsatz" expanded>
+        <mat-expansion-panel formGroupName="einsatz" [expanded]="isPersistenceEnabledOnStartup">
             <mat-expansion-panel-header>
                 <mat-panel-title>Einsatz</mat-panel-title>
             </mat-expansion-panel-header>
@@ -55,7 +55,7 @@
                 <mat-datepicker #datepicker></mat-datepicker>
             </mat-form-field>
         </mat-expansion-panel>
-        <mat-expansion-panel expanded>
+        <mat-expansion-panel [expanded]="isPersistenceEnabledOnStartup">
             <mat-expansion-panel-header>
                 <mat-panel-title>Personal <ng-container *ngIf="personal.controls.length > 1">
                         ({{personal.controls.length}})</ng-container>

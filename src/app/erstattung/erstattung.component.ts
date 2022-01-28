@@ -16,6 +16,7 @@ export class ErstattungComponent implements OnInit, OnDestroy {
   @ViewChild('printIframe', { static: false }) printIframe!: ElementRef<HTMLIFrameElement>;
 
   private readonly unsubscribe$ = new Subject<void>()
+  readonly isPersistenceEnabledOnStartup = this.service.isPersistenceEnabled()
   readonly form: FormGroup = new FormGroup({
     allgemeines: new FormGroup({
       wehr: new FormControl(this.service.getPersistedPayload().wehr),
@@ -23,7 +24,7 @@ export class ErstattungComponent implements OnInit, OnDestroy {
       rolle: new FormControl(this.service.getPersistedPayload().rolle || '1. Kommandant'),
       ort: new FormControl(this.service.getPersistedPayload().ort),
       kontakt: new FormControl(this.service.getPersistedPayload().kontakt),
-      persist: new FormControl(this.service.isPersistenceEnabled())
+      persist: new FormControl(this.isPersistenceEnabledOnStartup)
     }),
     einsatz: new FormGroup({
       grund: new FormControl(''),
