@@ -92,7 +92,8 @@
         </mat-expansion-panel>
         <mat-expansion-panel>
             <mat-expansion-panel-header>
-                <mat-panel-title>Einsatzmittel</mat-panel-title>
+                <mat-panel-title>Einsatzmittel <ng-container *ngIf="einsatzmittel.controls.length > 1">
+                    ({{einsatzmittel.controls.length}})</ng-container></mat-panel-title>
             </mat-expansion-panel-header>
             <ul formArrayName="einsatzmittel">
                 <li *ngFor="let control of einsatzmittel.controls; index as i">
