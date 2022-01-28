@@ -94,7 +94,7 @@ export class ErstattungService {
       doc.text('Feuerwehrdienstbescheinigung', this.paddingLeft, this.paddingTop + 7.8)
       doc.setFont(undefined as any, 'normal')
       doc.text('Antrag auf Erstattung fortgewährter Leistung im Zusammenhang mit dem Feuerwehrdienst', this.paddingLeft, this.paddingTop + 46.8);
-      doc.text('gemäß Art. 9, Art. 10 BayFwG', this.paddingLeft, this.paddingTop + 52.4);
+      doc.text('gemäß Art. 9, Art. 10 BayFwG.', this.paddingLeft, this.paddingTop + 52.4);
       doc.text('Sehr geehrte Damen und Herren,', this.paddingLeft, this.paddingTop + 72.6);
       doc.text(`Herr / Frau ${person.name || '___________________________________'}`, this.paddingLeft, this.paddingTop + 87.2);
       doc.text(`hat am ${this.datePipe.transform(value.einsatz.datum, 'mediumDate')}`, this.paddingLeft, this.paddingTop + 97.0);
