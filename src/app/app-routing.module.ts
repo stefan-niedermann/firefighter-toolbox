@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'fax',
-    data: { title: 'Fax-Generator' },
+    data: { title: 'Übungsfax Generator' },
     loadChildren: async () => (await import('./fax/fax.module')).FaxModule
   },
   {

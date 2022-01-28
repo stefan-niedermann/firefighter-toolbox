@@ -24,7 +24,7 @@ describe('the firefighter toolbox', () => {
     })
 
     it('should display the headline', () => {
-      cy.contains("Fax-Generator")
+      cy.contains("Übungsfax Generator")
     })
 
     describe('the form', () => {
