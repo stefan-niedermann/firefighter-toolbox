@@ -106,7 +106,7 @@ export class ErstattungService {
       doc.text(value.allgemeines.aussteller || '___________________________________', this.paddingLeft, this.paddingTop + 189.2)
       doc.text(value.allgemeines.rolle || '___________________________________', this.paddingLeft, this.paddingTop + 196.5)
       doc.text(`Feuerwehr ${value.allgemeines.wehr}`, this.paddingLeft, this.paddingTop + 202.1)
-      doc.text(`${value.allgemeines.ort || value.allgemeines.name || '________________'}, ${this.datePipe.transform(new Date(), 'mediumDate')}`, this.paddingLeft, this.paddingTop + 229.6)
+      doc.text(`${value.allgemeines.wehr || value.allgemeines.name || '________________'}, ${this.datePipe.transform(new Date(), 'mediumDate')}`, this.paddingLeft, this.paddingTop + 229.6)
       doc.text('___________________________________', this.paddingLeft + 87.6, this.paddingTop + 229.6)
       doc.text('Unterschrift', this.paddingLeft + 87.6, this.paddingTop + 236.9)
 

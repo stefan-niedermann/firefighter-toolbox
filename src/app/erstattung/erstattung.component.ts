@@ -17,13 +17,14 @@ export class ErstattungComponent implements OnInit, OnDestroy {
 
   private readonly unsubscribe$ = new Subject<void>()
   readonly isPersistenceEnabledOnStartup = this.service.isPersistenceEnabled()
+  private readonly persistedPayload = this.service.getPersistedPayload()
   readonly form: FormGroup = new FormGroup({
     allgemeines: new FormGroup({
-      wehr: new FormControl(this.service.getPersistedPayload().wehr),
-      aussteller: new FormControl(this.service.getPersistedPayload().aussteller),
-      rolle: new FormControl(this.service.getPersistedPayload().rolle || '1. Kommandant'),
-      ort: new FormControl(this.service.getPersistedPayload().ort),
-      kontakt: new FormControl(this.service.getPersistedPayload().kontakt),
+      wehr: new FormControl(this.persistedPayload.wehr),
+      aussteller: new FormControl(this.persistedPayload.aussteller),
+      rolle: new FormControl(this.persistedPayload.rolle || '1. Kommandant'),
+      ort: new FormControl(this.persistedPayload.ort),
+      kontakt: new FormControl(this.persistedPayload.kontakt),
       persist: new FormControl(this.isPersistenceEnabledOnStartup)
     }),
     einsatz: new FormGroup({
