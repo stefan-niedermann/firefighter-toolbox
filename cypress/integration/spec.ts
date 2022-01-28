@@ -8,6 +8,7 @@ describe('the firefighter toolbox', () => {
     })
 
     it('should contain the entered information', () => {
+      $('allgemeines-panel').click()
       $('wehr-input').type(sampleText)
       $('download-button').trigger('click')
       cy.task('getPdfContent', 'Antrag auf Erstattung.pdf')
