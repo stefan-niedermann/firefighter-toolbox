@@ -101,7 +101,7 @@ export class ErstattungService {
       doc.text(`in der Zeit von ${person.von || '____________'} Uhr bis ${person.bis || '____________'} Uhr`, this.paddingLeft, this.paddingTop + 106.7);
       doc.text(`an einem ${value.einsatz.grund || '___________________________________'}`, this.paddingLeft, this.paddingTop + 116.4);
       doc.text(`der Feuerwehr ${value.allgemeines.wehr || '___________________________________'} teilgenommen.`, this.paddingLeft, this.paddingTop + 126.2);
-      doc.text(`Für Rückfragen stehe ich${value.allgemeines.kontakt ? ` unter ${value.allgemeines.kontakt}` : ''} gerne zur Verfügung`, this.paddingLeft, this.paddingTop + 143.2);
+      doc.text(`Für Rückfragen stehe ich${value.allgemeines.kontakt ? ` unter ${value.allgemeines.kontakt}` : ''} gerne zur Verfügung.`, this.paddingLeft, this.paddingTop + 143.2);
       doc.text('Mit freundlichen Grüßen,', this.paddingLeft, this.paddingTop + 174.6);
       doc.text(value.allgemeines.aussteller || '___________________________________', this.paddingLeft, this.paddingTop + 189.2);
       doc.text(value.allgemeines.rolle || '___________________________________', this.paddingLeft, this.paddingTop + 196.5);

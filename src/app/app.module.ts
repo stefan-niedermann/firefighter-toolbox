@@ -11,11 +11,8 @@ import { GeneratedLicenseFileAvailable } from './about/licenses/licenses.service
 import { environment } from 'src/environments/environment';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { DatePipe, getLocaleExtraDayPeriodRules, registerLocaleData } from '@angular/common';
-import localeDeExtra from '@angular/common/locales/extra/de';
+import { DatePipe } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
-registerLocaleData(getLocaleExtraDayPeriodRules, 'de-DE', localeDeExtra);
 
 @NgModule({
   declarations: [

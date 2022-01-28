@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { ErstattungComponent } from './erstattung.component';
 import { RouterModule } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -14,8 +14,11 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import localeDeExtra from '@angular/common/locales/extra/de';
+import localeDe from '@angular/common/locales/de';
 
 
+registerLocaleData(localeDe, localeDeExtra)
 
 @NgModule({
   declarations: [
@@ -44,7 +47,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ])
   ],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'de-DE' }
+    { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
+    { provide: LOCALE_ID, useValue: 'de-DE' }
   ]
 })
 export class ErstattungModule { }
