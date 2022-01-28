@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnIn
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { filter, map, Observable, startWith, Subject, take, takeUntil, takeWhile, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, filter, from, map, Observable, startWith, Subject, switchMap, take, takeUntil, takeWhile, tap } from 'rxjs';
 import { ErrorDialogComponent } from '../shared/error-dialog/error-dialog.component';
 import { ErstattungService } from './erstattung.service';
 
@@ -16,7 +16,6 @@ export class ErstattungComponent implements OnInit, OnDestroy {
   @ViewChild('printIframe', { static: false }) printIframe!: ElementRef<HTMLIFrameElement>;
 
   private readonly unsubscribe$ = new Subject<void>()
-  readonly isPersistenceEnabledOnStartup = this.service.isPersistenceEnabled()
   readonly form: FormGroup = new FormGroup({
     allgemeines: new FormGroup({
       wehr: new FormControl(this.service.getPersistedPayload().wehr),
@@ -24,7 +23,7 @@ export class ErstattungComponent implements OnInit, OnDestroy {
       rolle: new FormControl(this.service.getPersistedPayload().rolle || '1. Kommandant'),
       ort: new FormControl(this.service.getPersistedPayload().ort),
       kontakt: new FormControl(this.service.getPersistedPayload().kontakt),
-      persist: new FormControl(this.isPersistenceEnabledOnStartup)
+      persist: new FormControl(this.service.isPersistenceEnabled())
     }),
     einsatz: new FormGroup({
       grund: new FormControl(''),
@@ -41,6 +40,16 @@ export class ErstattungComponent implements OnInit, OnDestroy {
   readonly rollen$ = this.service.getRollen(this.form.get('allgemeines')!.get('rolle')!.valueChanges)
   readonly gruende$ = this.service.getGruende(this.form.get('einsatz')!.get('grund')!.valueChanges)
   readonly personal = this.form.get('personal') as FormArray
+
+  readonly url$ = this.form.valueChanges
+    .pipe(
+      debounceTime(500),
+      startWith(this.form.value),
+      switchMap(value => from(this.service
+        .mergePdfs(this.service.generateFax(value))
+        .then(blob => URL.createObjectURL(blob))
+      ))
+    )
 
   constructor(
     private readonly snackbar: MatSnackBar,

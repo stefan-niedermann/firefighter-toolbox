@@ -10,7 +10,6 @@ import { NominatimDialogComponent } from './nominatim-dialog/nominatim-dialog.co
 import { Stichwoerter } from './stichwoerter';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ShareDialogComponent } from './share-dialog/share-dialog.component';
-import { Platform } from '@angular/cdk/platform';
 import { ErrorDialogComponent } from '../shared/error-dialog/error-dialog.component';
 
 @Component({

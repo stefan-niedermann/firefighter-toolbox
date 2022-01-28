@@ -1,6 +1,6 @@
 <form [formGroup]="form">
     <mat-accordion multi>
-        <mat-expansion-panel formGroupName="allgemeines" [expanded]="!isPersistenceEnabledOnStartup">
+        <mat-expansion-panel formGroupName="allgemeines" [expanded]="false">
             <mat-expansion-panel-header>
                 <mat-panel-title>Allgemeine Informationen</mat-panel-title>
             </mat-expansion-panel-header>
@@ -57,14 +57,17 @@
         </mat-expansion-panel>
         <mat-expansion-panel expanded>
             <mat-expansion-panel-header>
-                <mat-panel-title>Personal</mat-panel-title>
+                <mat-panel-title>Personal <ng-container *ngIf="personal.controls.length > 1">
+                        ({{personal.controls.length}})</ng-container>
+                </mat-panel-title>
             </mat-expansion-panel-header>
             <ul formArrayName="personal">
                 <li *ngFor="let control of personal.controls; index as i">
                     <ng-container [formGroupName]="i">
                         <mat-form-field appearance="fill">
                             <mat-label>Name</mat-label>
-                            <input formControlName="name" matInput placeholder="Max Mustermann" (keydown.enter)="addPerson()" />
+                            <input formControlName="name" matInput placeholder="Max Mustermann"
+                                (keydown.enter)="addPerson()" />
                         </mat-form-field>
                         <mat-form-field appearance="fill">
                             <mat-label>Von</mat-label>
@@ -97,5 +100,11 @@
             <mat-icon>print</mat-icon><span class="btn-text">Drucken</span>
         </button>
     </div>
-    <iframe #printIframe frameborder="0" style="display: none"></iframe>
 </form>
+<div class="preview">
+    <ng-container *ngIf="(url$ | async) as url">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        <pdf-viewer [src]="url" [original-size]="false"></pdf-viewer>
+        <iframe #printIframe frameborder="0" style="display: none"></iframe>
+    </ng-container>
+</div>

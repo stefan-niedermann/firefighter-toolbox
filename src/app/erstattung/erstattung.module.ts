@@ -16,6 +16,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import localeDe from '@angular/common/locales/de';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 registerLocaleData(localeDe, localeDeExtra)
@@ -26,6 +28,7 @@ registerLocaleData(localeDe, localeDeExtra)
   ],
   imports: [
     CommonModule,
+    PdfViewerModule,
     FormsModule,
     ReactiveFormsModule,
     MatExpansionModule,
@@ -39,6 +42,7 @@ registerLocaleData(localeDe, localeDeExtra)
     MatSlideToggleModule,
     MatTooltipModule,
     MatAutocompleteModule,
+    MatProgressSpinnerModule,
     RouterModule.forChild([
       {
         path: '',

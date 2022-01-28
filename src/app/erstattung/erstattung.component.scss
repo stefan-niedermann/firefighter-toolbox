@@ -1,18 +1,28 @@
 :host {
-    display: block;
     padding: 2rem;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1;
 
     @media (min-width: 700px) {
         max-width: 1640px;
         width: 80%;
         margin: auto;
+        height: calc(100vh - 128px);
+        overflow: hidden;
+        grid-template-columns: repeat(2, 50%);
+
+        form {
+            height: calc(100vh - 64px - 4rem);
+            overflow: auto;
+        }
     }
 }
 
 mat-form-field {
     width: 100%;
 
-    @media (min-width: 600px) {
+    @media (min-width: 1024px) {
         width: calc(50% - 1rem);
     
         margin-right: 1rem;
@@ -22,7 +32,7 @@ mat-form-field {
         }
     }
 
-    @media (min-width: 1024px) {
+    @media (min-width: 1680px) {
         width: calc(100% / 3 - 1rem);
     }
 }
@@ -38,6 +48,9 @@ ul {
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
+        &:not(:last-child) {
+            margin-bottom: 2rem;
+        }
 
         mat-form-field {
             flex: 1 1 calc(25% - 40px);
@@ -61,5 +74,19 @@ ul {
         @media (min-width: 980px) {
             display: inline;
         }
+    }
+}
+
+.preview {
+    position: relative;
+    mat-progress-spinner {
+        position: absolute;
+        top: calc(50% - 2rem);
+        margin-left: calc(50% - 50px);
+    }
+    pdf-viewer {
+        position: relative;
+        display: block;
+        min-height: max(calc(100vh - 8rem), 4rem);
     }
 }
