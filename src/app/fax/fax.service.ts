@@ -33,8 +33,8 @@ export class FaxService {
         }
 
         const doc = new jsPDF({
-          unit: 'mm',
-          format: 'a4'
+          compress: true,
+          putOnlyUsedFonts: true
         });
 
         doc.setFont("courier", "normal");
