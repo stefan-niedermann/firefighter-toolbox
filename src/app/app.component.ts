@@ -15,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
     .pipe(filter(e => e instanceof NavigationEnd))
   readonly icon = this.navigationEnd$.pipe(
     map(e => (e as any).url === '/'),
-    map(isHome => isHome ? 'home' : 'arrow_back')
+    map(isHome => isHome ? 'local_fire_department' : 'arrow_back')
   )
 
   constructor(
