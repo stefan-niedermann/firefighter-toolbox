@@ -110,7 +110,7 @@
                             <mat-label>Aus</mat-label>
                             <input formControlName="aus" matInput (keydown.enter)="addEinsatzmittel()" />
                         </mat-form-field>
-                        <button type="button" mat-icon-button (click)="removeEinsatzmittel(i)"
+                        <button *ngIf="einsatzmittel.controls.length > 1" type="button" mat-icon-button (click)="removeEinsatzmittel(i)"
                             matTooltip="Dieses Einsatzmittel löschen">
                             <mat-icon>delete</mat-icon>
                         </button>

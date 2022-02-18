@@ -79,7 +79,7 @@
                             <span matSuffix>Uhr</span>
                             <input formControlName="bis" matInput placeholder="00:00" (keydown.enter)="addPerson()" />
                         </mat-form-field>
-                        <button type="button" mat-icon-button (click)="removePerson(i)"
+                        <button *ngIf="personal.controls.length > 1" type="button" mat-icon-button (click)="removePerson(i)"
                             matTooltip="Dieses Einsatzmittel löschen">
                             <mat-icon>delete</mat-icon>
                         </button>
