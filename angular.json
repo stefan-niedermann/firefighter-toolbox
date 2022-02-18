@@ -28,6 +28,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/.htaccess",
               {
                 "glob": "pdf.worker.min.js",
                 "input": "node_modules/pdfjs-dist/build/",

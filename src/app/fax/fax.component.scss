@@ -8,8 +8,14 @@
         max-width: 1640px;
         width: 80%;
         margin: auto;
-
+        height: calc(100vh - 128px);
+        overflow: hidden;
         grid-template-columns: repeat(2, 50%);
+
+        form {
+            height: calc(100vh - 64px - 4rem);
+            overflow: auto;
+        }
     }
 }
 

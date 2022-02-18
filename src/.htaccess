@@ -1,0 +1,14 @@
+<ifModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule (.*) /index.html [QSA,L]
+</ifModule>
+
+Header add Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' blob: nominatim.openstreetmap.org; img-src 'self' data:; frame-ancestors 'none'"
+Header add Strict-Transport-Security "max-age=63072000; includeSubDomains"
+Header add X-Frame-Options "DENY"
+Header add X-Content-Type-Options "nosniff"
+Header add X-XSS-Protection "1; mode=block"
+Header add Referrer-Policy "same-origin, strict-origin-when-cross-origin"

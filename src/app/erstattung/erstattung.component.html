@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-    <mat-accordion multi>
+    <mat-accordion>
         <mat-expansion-panel formGroupName="allgemeines" [expanded]="!isPersistenceEnabledOnStartup" data-test="allgemeines-panel" >
             <mat-expansion-panel-header>
                 <mat-panel-title>Allgemeine Informationen</mat-panel-title>
@@ -102,8 +102,8 @@
     </div>
 </form>
 <div class="preview">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     <ng-container *ngIf="(url$ | async) as url">
-        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
         <pdf-viewer [src]="url" [original-size]="false"></pdf-viewer>
         <iframe #printIframe frameborder="0" style="display: none"></iframe>
     </ng-container>
