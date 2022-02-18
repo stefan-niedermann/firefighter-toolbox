@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "~13.2.2",
     "@angular/router": "~13.2.2",
     "jspdf": "^2.5.1",
-    "ng2-pdf-viewer": "7.0.2",
+    "ng2-pdf-viewer": "8.0.0",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "2.11.338",
     "rxjs": "~7.5.2",
