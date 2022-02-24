@@ -20,7 +20,7 @@
     "@angular/material": "^13.2.3",
     "@angular/platform-browser": "~13.2.2",
     "@angular/platform-browser-dynamic": "~13.2.4",
-    "@angular/router": "~13.2.2",
+    "@angular/router": "~13.2.4",
     "jspdf": "^2.5.1",
     "ng2-pdf-viewer": "8.0.1",
     "pdf-lib": "^1.17.1",
