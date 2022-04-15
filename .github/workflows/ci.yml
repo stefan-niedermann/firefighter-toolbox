@@ -40,17 +40,17 @@ jobs:
         continue-on-error: true
         run: npm run e2e
       - name: Upload downloads
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: e2e-downloads
           path: cypress/downloads
       - name: Upload screenshots
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: e2e-screenshots
           path: cypress/screenshots
       - name: Upload videos
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: e2e-videos
           path: cypress/videos
@@ -66,7 +66,7 @@ jobs:
       - name: Build UI
         run: npm run build
       - name: Stash bundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: bundle
           path: dist/firefighter-toolbox/
