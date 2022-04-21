@@ -45,7 +45,7 @@
     "@types/pdf-parse": "^1.1.1",
     "@types/pdfjs-dist": "^2.10.378",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
-    "@typescript-eslint/parser": "^5.19.0",
+    "@typescript-eslint/parser": "^5.20.0",
     "canvas": "^2.9.1",
     "cypress": "^9.5.4",
     "eslint": "^8.13.0",
