@@ -13,7 +13,7 @@
   "dependencies": {
     "@angular/animations": "~13.3.6",
     "@angular/cdk": "^13.3.5",
-    "@angular/common": "~13.3.5",
+    "@angular/common": "~13.3.6",
     "@angular/compiler": "~13.3.5",
     "@angular/core": "~13.3.5",
     "@angular/forms": "~13.3.6",
@@ -48,7 +48,7 @@
     "@typescript-eslint/parser": "^5.22.0",
     "canvas": "^2.9.1",
     "cypress": "^9.6.1",
-    "eslint": "^8.14.0",
+    "eslint": "^8.15.0",
     "jest": "^27.5.1",
     "jest-preset-angular": "^11.1.2",
     "ng-mocks": "^13.5.0",
