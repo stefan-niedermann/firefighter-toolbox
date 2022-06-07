@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { BehaviorSubject, debounce, map, merge, Observable, ReplaySubject, startWith, switchMap, take, tap, timer } from 'rxjs';
 import { FaxService } from './fax.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,37 +24,37 @@ export class FaxComponent implements OnInit {
   private readonly initialFormState = new ReplaySubject(1);
   private readonly currentUrl$ = new BehaviorSubject<string | null>(null);
 
-  readonly form: FormGroup = new FormGroup({
-    mitteiler: new FormControl(''),
-    einsatzort: new FormGroup({
-      strasse: new FormControl(''),
-      hnr: new FormControl(''),
-      objekt: new FormControl(''),
-      ort: new FormControl(''),
-      nominatimEnabled: new FormControl(this.nominatimService.isEnabled()),
+  readonly form: UntypedFormGroup = new UntypedFormGroup({
+    mitteiler: new UntypedFormControl(''),
+    einsatzort: new UntypedFormGroup({
+      strasse: new UntypedFormControl(''),
+      hnr: new UntypedFormControl(''),
+      objekt: new UntypedFormControl(''),
+      ort: new UntypedFormControl(''),
+      nominatimEnabled: new UntypedFormControl(this.nominatimService.isEnabled()),
     }),
-    zielort: new FormGroup({
-      strasse: new FormControl(''),
-      hnr: new FormControl(''),
-      objekt: new FormControl(''),
-      ort: new FormControl('')
+    zielort: new UntypedFormGroup({
+      strasse: new UntypedFormControl(''),
+      hnr: new UntypedFormControl(''),
+      objekt: new UntypedFormControl(''),
+      ort: new UntypedFormControl('')
     }),
-    patient: new FormControl(''),
-    einsatzgrund: new FormGroup({
-      schlagwort: new FormControl(''),
-      stichwort: new FormControl('')
+    patient: new UntypedFormControl(''),
+    einsatzgrund: new UntypedFormGroup({
+      schlagwort: new UntypedFormControl(''),
+      stichwort: new UntypedFormControl('')
     }),
-    einsatzmittel: new FormArray([
-      new FormGroup({
-        name: new FormControl(''),
-        alarmiert: new FormControl(''),
-        aus: new FormControl('')
+    einsatzmittel: new UntypedFormArray([
+      new UntypedFormGroup({
+        name: new UntypedFormControl(''),
+        alarmiert: new UntypedFormControl(''),
+        aus: new UntypedFormControl('')
       })
     ]),
-    bemerkung: new FormControl(''),
+    bemerkung: new UntypedFormControl(''),
   });
-  readonly einsatzmittel = this.form.get('einsatzmittel') as FormArray;
-  readonly filteredStichwoerter: Observable<string[]> = (this.form.get('einsatzgrund')?.get('stichwort') as FormGroup).valueChanges.pipe(
+  readonly einsatzmittel = this.form.get('einsatzmittel') as UntypedFormArray;
+  readonly filteredStichwoerter: Observable<string[]> = (this.form.get('einsatzgrund')?.get('stichwort') as UntypedFormGroup).valueChanges.pipe(
     startWith(''),
     map(value => {
       let filterValue = value.toLowerCase();
@@ -108,10 +108,10 @@ export class FaxComponent implements OnInit {
 
   addEinsatzmittel(name = '', alarmiert = '', aus = '') {
     this.einsatzmittel.push(
-      new FormGroup({
-        name: new FormControl(name),
-        alarmiert: new FormControl(alarmiert),
-        aus: new FormControl(aus)
+      new UntypedFormGroup({
+        name: new UntypedFormControl(name),
+        alarmiert: new UntypedFormControl(alarmiert),
+        aus: new UntypedFormControl(aus)
       })
     )
     this.cdr.detectChanges();

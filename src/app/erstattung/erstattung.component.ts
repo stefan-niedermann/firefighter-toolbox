@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, debounceTime, filter, from, map, Observable, startWith, Subject, switchMap, take, takeUntil, takeWhile, tap } from 'rxjs';
@@ -18,30 +18,30 @@ export class ErstattungComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$ = new Subject<void>()
   readonly isPersistenceEnabledOnStartup = this.service.isPersistenceEnabled()
   private readonly persistedPayload = this.service.getPersistedPayload()
-  readonly form: FormGroup = new FormGroup({
-    allgemeines: new FormGroup({
-      wehr: new FormControl(this.persistedPayload.wehr),
-      aussteller: new FormControl(this.persistedPayload.aussteller),
-      rolle: new FormControl(this.persistedPayload.rolle || '1. Kommandant'),
-      ort: new FormControl(this.persistedPayload.ort),
-      kontakt: new FormControl(this.persistedPayload.kontakt),
-      persist: new FormControl(this.isPersistenceEnabledOnStartup)
+  readonly form: UntypedFormGroup = new UntypedFormGroup({
+    allgemeines: new UntypedFormGroup({
+      wehr: new UntypedFormControl(this.persistedPayload.wehr),
+      aussteller: new UntypedFormControl(this.persistedPayload.aussteller),
+      rolle: new UntypedFormControl(this.persistedPayload.rolle || '1. Kommandant'),
+      ort: new UntypedFormControl(this.persistedPayload.ort),
+      kontakt: new UntypedFormControl(this.persistedPayload.kontakt),
+      persist: new UntypedFormControl(this.isPersistenceEnabledOnStartup)
     }),
-    einsatz: new FormGroup({
-      grund: new FormControl(''),
-      datum: new FormControl(new Date())
+    einsatz: new UntypedFormGroup({
+      grund: new UntypedFormControl(''),
+      datum: new UntypedFormControl(new Date())
     }),
-    personal: new FormArray([
-      new FormGroup({
-        name: new FormControl(''),
-        von: new FormControl(''),
-        bis: new FormControl('')
+    personal: new UntypedFormArray([
+      new UntypedFormGroup({
+        name: new UntypedFormControl(''),
+        von: new UntypedFormControl(''),
+        bis: new UntypedFormControl('')
       })
     ]),
   })
   readonly rollen$ = this.service.getRollen(this.form.get('allgemeines')!.get('rolle')!.valueChanges)
   readonly gruende$ = this.service.getGruende(this.form.get('einsatz')!.get('grund')!.valueChanges)
-  readonly personal = this.form.get('personal') as FormArray
+  readonly personal = this.form.get('personal') as UntypedFormArray
 
   readonly url$ = this.form.valueChanges
     .pipe(
@@ -80,10 +80,10 @@ export class ErstattungComponent implements OnInit, OnDestroy {
     bis = this.personal.at(this.personal.length - 1)?.get('bis')?.value || ''
   ) {
     this.personal.push(
-      new FormGroup({
-        name: new FormControl(name),
-        von: new FormControl(von),
-        bis: new FormControl(bis)
+      new UntypedFormGroup({
+        name: new UntypedFormControl(name),
+        von: new UntypedFormControl(von),
+        bis: new UntypedFormControl(bis)
       })
     )
     this.cdr.detectChanges();
