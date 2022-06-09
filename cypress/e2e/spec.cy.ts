@@ -7,10 +7,11 @@ describe('the firefighter toolbox', () => {
       cy.visit('/erstattung')
     })
 
-    xit('should contain the entered information', () => {
+    it('should contain the entered information', () => {
       $('allgemeines-panel').click()
       $('wehr-input').type(sampleText)
       $('download-button').trigger('click')
+      cy.wait(4_000);
       cy.task('getPdfContent', 'Antrag auf Erstattung.pdf')
         .then(content => expect((content as any).text).to.contain(sampleText))
     })
@@ -57,10 +58,11 @@ describe('the firefighter toolbox', () => {
       })
     })
 
-    xdescribe('the downloadable PDF version', () => {
-      it('should always contain a hint that this is an exercise fax', () => {
+    describe('the downloadable PDF version', () => {
+      xit('should always contain a hint that this is an exercise fax', () => {
         cy.wait(1_000)
         $('download-button').click()
+        cy.wait(4_000);
         cy.task('getPdfContent', downloadedFilename())
           .then(content => expect((content as any).text).to.contain('ÜBUNGS-FAX'))
       })
@@ -70,7 +72,7 @@ describe('the firefighter toolbox', () => {
         $('mitteiler-input').type(sampleText)
         cy.wait(1_000)
         $('download-button').click()
-        cy.wait(4_000)
+        cy.wait(4_000);
         cy.task('getPdfContent', downloadedFilename())
           .then(content => expect((content as any).text).to.contain(sampleText))
       })
