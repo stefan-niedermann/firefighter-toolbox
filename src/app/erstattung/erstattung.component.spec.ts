@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ErstattungComponent } from './erstattung.component';
 
@@ -38,6 +39,7 @@ describe('ErstattungComponent', () => {
         MatDatepickerModule,
         MatAutocompleteModule,
         MatNativeDateModule,
+        MatProgressSpinnerModule,
       ],
       providers: [DatePipe]
     })
