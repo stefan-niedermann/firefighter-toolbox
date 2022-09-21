@@ -50,7 +50,10 @@
               "pdfjs-dist",
               "raf",
               "core-js",
-              "pako"
+              "pako",
+              "rgbcolor",
+              "dompurify",
+              "html2canvas"
             ]
           },
           "configurations": {
@@ -71,7 +74,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "550kb",
+                  "maximumWarning": "650kb",
                   "maximumError": "1mb"
                 },
                 {

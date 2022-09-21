@@ -58,8 +58,8 @@ describe('the firefighter toolbox', () => {
       })
     })
 
-    describe('the downloadable PDF version', () => {
-      xit('should always contain a hint that this is an exercise fax', () => {
+    xdescribe('the downloadable PDF version', () => {
+      it('should always contain a hint that this is an exercise fax', () => {
         cy.wait(1_000)
         $('download-button').click()
         cy.wait(4_000);
