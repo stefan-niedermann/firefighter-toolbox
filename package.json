@@ -19,7 +19,7 @@
     "@angular/forms": "~14.2.2",
     "@angular/material": "^14.2.2",
     "@angular/platform-browser": "~14.2.2",
-    "@angular/platform-browser-dynamic": "~14.2.2",
+    "@angular/platform-browser-dynamic": "~14.2.7",
     "@angular/router": "~14.2.2",
     "jspdf": "^2.5.1",
     "ng2-pdf-viewer": "^9.1.2",
