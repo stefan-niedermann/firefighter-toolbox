@@ -1,0 +1,128 @@
+<form [formGroup]="form">
+    <mat-button-toggle-group formControlName="os" aria-label="Betriebssystem">
+        <mat-button-toggle value="android"><mat-icon>phone_android</mat-icon><span>Android</span></mat-button-toggle>
+        <mat-button-toggle value="ios"><mat-icon>phone_iphone</mat-icon><span>iOS</span></mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group name="station" aria-label="Feuerwehr" [value]="station">
+        <mat-button-toggle *ngFor="let station of calendar | keyvalue" [value]="station.value"
+            (change)="setStation($event.value)">{{ station.key }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-form-field appearance="fill" subscriptSizing="dynamic">
+        <mat-label>Kalender</mat-label>
+        <mat-select formControlName="calendar" name="calendar">
+            <mat-option *ngFor="let calendar of station | keyvalue" [value]="calendar.value">
+                {{ calendar.key }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>
+<mat-card>
+    <ng-container *ngIf="form.value.os === 'android'">
+        <h2>Kalender mit Android synchronisieren</h2>
+        <mat-stepper orientation="vertical">
+            <mat-step>
+                <ng-template matStepLabel>Bei Google einloggen</ng-template>
+                <p>Öffnen Sie <a href="https://calendar.google.com/" target="_blank">calendar.google.com</a> und loggen
+                    Sie sich mit dem selben Konto ein, das Sie auf Ihrem Android-Gerät verwenden.</p>
+                <div>
+                    <button mat-raised-button color="primary" matStepperNext>Weiter</button>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Kalender verwalten</ng-template>
+                <p>Klicken Sie unten links bei <kbd>Weitere Kalender</kbd> auf das <mat-icon>add</mat-icon>-Icon →
+                    <kbd>Per URL</kbd> um einen neuen Kalender hinzuzufügen.
+                </p>
+                <p><img src="assets/calendar/android-google-calendar-1.png" alt=""></p>
+                <div>
+                    <button mat-button matStepperPrevious>Zurück</button>
+                    <button mat-raised-button color="primary" matStepperNext>Weiter</button>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Kalender hinzufügen</ng-template>
+                <p *ngIf="form.value.calendar">Kopieren Sie die URL <code [cdkCopyToClipboard]="form.value.calendar" (click)="onCopiedToClipboard()">{{ form.value.calendar }}</code>
+                    <button mat-icon-button aria-label="URL kopieren" [cdkCopyToClipboard]="form.value.calendar" (click)="onCopiedToClipboard()" matTooltip="URL kopieren">
+                        <mat-icon>content_copy</mat-icon>
+                    </button>
+                </p>
+                <p>Fügen Sie die Kalender-URL im Feld "URL des Kalenders" ein. Die Checkbox "Den Kalender öffentlich machen" brauchen Sie nicht zu aktivieren.</p>
+                <p>
+                    <img src="assets/calendar/android-google-calendar-2.png" alt="">
+                </p>
+                <div>
+                    <button mat-button matStepperPrevious>Zurück</button>
+                    <button mat-raised-button color="primary" matStepperNext>Weiter</button>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Fertig</ng-template>
+                <p>Der Kalender wird alle 24 Stunden mit allen Android-Geräten, die dieses Google-Konto verwenden,
+                    synchronisiert.</p>
+                <div>
+                    <button mat-raised-button matStepperPrevious>Zurück</button>
+                </div>
+            </mat-step>
+        </mat-stepper>
+    </ng-container>
+    <ng-container *ngIf="form.value.os === 'ios'">
+        <h2>Kalender mit iOS synchronisieren</h2>
+        <mat-stepper orientation="vertical">
+            <mat-step>
+                <ng-template matStepLabel>Einstellungen öffnen</ng-template>
+                <p>Öffnen Sie die Einstellungen auf Ihrem iOS-Gerät</p>
+                <ol class="image-list">
+                    <li>
+                        <figure>
+                            <img src="assets/calendar/ios-calendar-1.png" alt="">
+                            <figcaption><kbd>Passwörter & Accounts</kbd></figcaption>
+                        </figure>
+                    </li>
+                    <li>
+                        <figure>
+                            <img src="assets/calendar/ios-calendar-2.png" alt="">
+                            <figcaption><kbd>CalDAV-Account hinzufügen</kbd></figcaption>
+                        </figure>
+                    </li>
+                    <li>
+                        <figure>
+                            <img src="assets/calendar/ios-calendar-3.png" alt="">
+                            <figcaption><kbd>Andere</kbd></figcaption>
+                        </figure>
+                    </li>
+                    <li>
+                        <figure>
+                            <img src="assets/calendar/ios-calendar-4.png" alt="">
+                            <figcaption><kbd>Kalenderabo hinzufügen</kbd></figcaption>
+                        </figure>
+                    </li>
+                </ol>
+                <div>
+                    <button mat-raised-button color="primary" matStepperNext>Weiter</button>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Kalender hinzufügen</ng-template>
+                <p *ngIf="form.value.calendar">Kopieren Sie die URL <code [cdkCopyToClipboard]="form.value.calendar" (click)="onCopiedToClipboard()">{{ form.value.calendar }}</code>
+                    <button mat-icon-button aria-label="URL kopieren" [cdkCopyToClipboard]="form.value.calendar" (click)="onCopiedToClipboard()" matTooltip="URL kopieren">
+                        <mat-icon>content_copy</mat-icon>
+                    </button>
+                </p>
+                <p>Fügen Sie die Kalender-URL in das entsprechende Feld ein und bestätigen Sie den Dialog.</p>
+                <div>
+                    <button mat-button matStepperPrevious>Zurück</button>
+                    <button mat-raised-button color="primary" matStepperNext>Weiter</button>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Fertig</ng-template>
+                <p>Der Kalender wird in regelmäßigen Abständen im Hintergrund synchronisiert.</p>
+                <div>
+                    <button mat-raised-button matStepperPrevious>Zurück</button>
+                </div>
+            </mat-step>
+        </mat-stepper>
+    </ng-container>
+</mat-card>

@@ -18,6 +18,11 @@ const routes: Routes = [
     loadChildren: async () => (await import('./erstattung/erstattung.module')).ErstattungModule
   },
   {
+    path: 'kalender',
+    data: { title: 'Kalender Anleitung' },
+    loadChildren: async () => (await import('./calendar/calendar.module')).CalendarModule
+  },
+  {
     path: 'about',
     data: { title: 'Über' },
     loadChildren: async () => (await import('./about/about.module')).AboutModule

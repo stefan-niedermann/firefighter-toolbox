@@ -1,0 +1,77 @@
+:host {
+    --image-list-gap: 1rem;
+
+    padding: 2rem;
+    display: block;
+    margin: auto;
+
+    @media (min-width: 700px) {
+        max-width: 1640px;
+        width: 80%;
+    }
+}
+
+mat-button-toggle-group {
+    display: flex;
+}
+
+mat-button-toggle {
+    line-height: 3.7em;
+    flex: 1 1 auto;
+}
+
+::ng-deep .mat-form-field-wrapper{
+    margin-bottom: -1.25em;
+}
+
+img {
+    max-width: 100%;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    form {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.image-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--image-list-gap);
+    list-style: none;
+    padding-left: 0;
+}
+
+.image-list li {
+    width: 100%;
+}
+
+.image-list li figure {
+    margin: 0;
+}
+
+@media (min-width: 720px) {
+    .image-list li {
+        width: calc(50% - var(--image-list-gap));
+    }
+}
+
+@media (min-width: 1280px) {
+    .image-list li {
+        width: calc(25% - var(--image-list-gap));
+    }
+}
+
+.image-list figcaption {
+    text-align: center;
+}
